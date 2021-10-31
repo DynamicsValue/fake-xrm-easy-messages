@@ -1,14 +1,14 @@
 ﻿
 # FakeXrmEasy: The Test Automation Framework for the Power Platform / Dataverse
 
-## FakeXrmEasy.Core
+## FakeXrmEasy.Messages
 --------------------------------------------------
-This repo contains the source code for the FakeXrmEasy.Core package.
+This repo contains the source code for the FakeXrmEasy.Messages package. 
 
 
 |Build|Quality Gate|Coverage|Security|Maintainability|Reliability|
 |-----| ---------- | ------ | ------ | ------------- | --------- |
-|![Build](https://github.com/DynamicsValue/fake-xrm-easy-core/workflows/CI/badge.svg)|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-core&metric=alert_status&token=73e4cb43b4e3460b20fd2b8523e0e155540a5ec7)](https://sonarcloud.io/dashboard?id=DynamicsValue_fake-xrm-easy-core)|[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-core&metric=coverage&token=73e4cb43b4e3460b20fd2b8523e0e155540a5ec7)](https://sonarcloud.io/dashboard?id=DynamicsValue_fake-xrm-easy-core)|[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-core&metric=security_rating&token=73e4cb43b4e3460b20fd2b8523e0e155540a5ec7)](https://sonarcloud.io/dashboard?id=DynamicsValue_fake-xrm-easy-core)|[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-core&metric=sqale_rating&token=73e4cb43b4e3460b20fd2b8523e0e155540a5ec7)](https://sonarcloud.io/dashboard?id=DynamicsValue_fake-xrm-easy-core)|[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-core&metric=reliability_rating&token=73e4cb43b4e3460b20fd2b8523e0e155540a5ec7)](https://sonarcloud.io/dashboard?id=DynamicsValue_fake-xrm-easy-core)|
+|![Build](https://github.com/DynamicsValue/fake-xrm-easy-messages/workflows/CI/badge.svg)|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-messages&metric=alert_status&token=769306fc6d781064d79f05f556c317dc81dff148)](https://sonarcloud.io/summary/new_code?id=DynamicsValue_fake-xrm-easy-messages)|[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-messages&metric=coverage&token=769306fc6d781064d79f05f556c317dc81dff148)](https://sonarcloud.io/summary/new_code?id=DynamicsValue_fake-xrm-easy-messages)|[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-messages&metric=security_rating&token=769306fc6d781064d79f05f556c317dc81dff148)](https://sonarcloud.io/summary/new_code?id=DynamicsValue_fake-xrm-easy-messages)|[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-messages&metric=sqale_rating&token=769306fc6d781064d79f05f556c317dc81dff148)](https://sonarcloud.io/summary/new_code?id=DynamicsValue_fake-xrm-easy-messages)|[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=DynamicsValue_fake-xrm-easy-messages&metric=reliability_rating&token=769306fc6d781064d79f05f556c317dc81dff148)](https://sonarcloud.io/summary/new_code?id=DynamicsValue_fake-xrm-easy-messages)|
 
 ## Why should my company use FakeXrmEasy? 
 --------------------------------------------------
