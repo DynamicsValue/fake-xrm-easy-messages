@@ -1,6 +1,10 @@
+using System.Reflection;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.Enums;
+using FakeXrmEasy.FakeMessageExecutors;
 using FakeXrmEasy.Middleware;
+using FakeXrmEasy.Middleware.Crud;
+using FakeXrmEasy.Middleware.Messages;
 using Microsoft.Xrm.Sdk;
 
 namespace FakeXrmEasy.Messages.Tests
@@ -12,7 +16,21 @@ namespace FakeXrmEasy.Messages.Tests
         
         protected FakeXrmEasyTestsBase()
         {
-            _context = XrmFakedContextFactory.New(FakeXrmEasyLicense.RPL_1_5);
+            _context = MiddlewareBuilder
+                        .New()
+       
+                        // Add* -> Middleware configuration
+                        .AddCrud()
+                        .AddFakeMessageExecutors(Assembly.GetAssembly(typeof(AddListMembersListRequestExecutor)))
+                        .AddGenericFakeMessageExecutors()
+
+                        // Use* -> Defines pipeline sequence
+                        .UseCrud()
+                        .UseMessages()
+
+                        .SetLicense(FakeXrmEasyLicense.RPL_1_5)
+                        .Build();
+                        
             _service = _context.GetOrganizationService();
         }
     }

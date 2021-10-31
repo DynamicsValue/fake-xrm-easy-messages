@@ -22,10 +22,10 @@ Get-ChildItem -Path $tempNupkgFolder -Include *.nupkg -File -Recurse | ForEach-O
 
 Write-Host "Packing src packages..."
 ./pack-src.ps1 -targetFrameworks $targetFrameworks -versionSuffix $versionSuffix 
-./push.ps1 -packageSource $packageSource -packagePrefix "FakeXrmEasy.Core"
+./push.ps1 -packageSource $packageSource -packagePrefix "FakeXrmEasy.Messages"
 
 Write-Host "Packing test packages..."
 ./pack-tests.ps1 -targetFrameworks $targetFrameworks -versionSuffix $versionSuffix
-./push.ps1 -packageSource $packageSource -packagePrefix "FakeXrmEasy.CoreTests"   
+./push.ps1 -packageSource $packageSource -packagePrefix "FakeXrmEasy.MessagesTests"   
 
 Write-Host "Pack Succeeded  :)" -ForegroundColor Green

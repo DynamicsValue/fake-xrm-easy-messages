@@ -7,9 +7,9 @@ Write-Host "Running with versionSuffix '$($versionSuffix)'..."
 
 $tempNupkgFolder = './nupkgs'
 
-$packageIdPrefix = "FakeXrmEasy.CoreTests"
-$projectName = "FakeXrmEasy.Core.Tests"
-$projectPath = "tests/FakeXrmEasy.Core.Tests"
+$packageIdPrefix = "FakeXrmEasy.MessagesTests"
+$projectName = "FakeXrmEasy.Messages.Tests"
+$projectPath = "tests/FakeXrmEasy.Messages.Tests"
 
 Write-Host "Packing All Configurations for project $($projectName)" -ForegroundColor Green
 
