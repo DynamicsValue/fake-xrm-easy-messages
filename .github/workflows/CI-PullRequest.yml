@@ -2,7 +2,7 @@ name: CI-PR
 
 on:
   pull_request:
-    branches: [ master, dev ]
+    branches: [ 3x, 3x-dev ]
     paths-ignore:
       - 'coverage/**'
       - '*.md'
@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false 
       matrix: 
-        configuration: ['FAKE_XRM_EASY_9', 'FAKE_XRM_EASY_365', 'FAKE_XRM_EASY_2016','FAKE_XRM_EASY_2015','FAKE_XRM_EASY_2013','FAKE_XRM_EASY']
+        configuration: ['FAKE_XRM_EASY_9', 'FAKE_XRM_EASY_365', 'FAKE_XRM_EASY_2016','FAKE_XRM_EASY_2015','FAKE_XRM_EASY_2013' ]
 
     runs-on: windows-latest
 
