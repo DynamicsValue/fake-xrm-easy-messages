@@ -2,6 +2,7 @@ using System.Reflection;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.Enums;
 using FakeXrmEasy.FakeMessageExecutors;
+using FakeXrmEasy.FakeMessageExecutors.CustomExecutors;
 using FakeXrmEasy.Middleware;
 using FakeXrmEasy.Middleware.Crud;
 using FakeXrmEasy.Middleware.Messages;
@@ -22,7 +23,7 @@ namespace FakeXrmEasy.Messages.Tests
                         // Add* -> Middleware configuration
                         .AddCrud()
                         .AddFakeMessageExecutors(Assembly.GetAssembly(typeof(AddListMembersListRequestExecutor)))
-                        .AddGenericFakeMessageExecutors()
+                        .AddGenericFakeMessageExecutors(Assembly.GetAssembly(typeof(NavigateToNextEntityOrganizationRequestExecutor)))
 
                         // Use* -> Defines pipeline sequence
                         .UseCrud()
