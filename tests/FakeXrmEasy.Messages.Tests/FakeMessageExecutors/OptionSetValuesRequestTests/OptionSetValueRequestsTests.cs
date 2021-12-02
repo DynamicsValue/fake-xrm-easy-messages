@@ -68,7 +68,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.OptionSetValuesRequest
             Assert.NotNull(optionSetMetadata);
 
             var option = optionSetMetadata.Options.FirstOrDefault();
-            Assert.NotEqual(null, option);
+            Assert.NotNull(option);
             Assert.Equal("Yeah! This is a fake label!", option.Label.LocalizedLabels[0].Label);
         }
 
@@ -91,7 +91,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.OptionSetValuesRequest
             Assert.NotNull(optionSetMetadata);
 
             var option = optionSetMetadata.Options.FirstOrDefault();
-            Assert.NotEqual(null, option);
+            Assert.NotNull(option);
             Assert.Equal("Yeah! This is a fake label!", option.Label.LocalizedLabels[0].Label);
         }
     }

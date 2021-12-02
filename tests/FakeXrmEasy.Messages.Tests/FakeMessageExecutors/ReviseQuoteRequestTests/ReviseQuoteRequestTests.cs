@@ -85,7 +85,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ReviseQuoteRequestTest
                 }
             }).Entities.ToList();
 
-            Assert.Equal(1, quoteLines.Count);
+            Assert.Single(quoteLines);
             Assert.Equal(new Money(1000m), quoteLines.Single().GetAttributeValue<Money>("extendedamount"));
         }
     }
