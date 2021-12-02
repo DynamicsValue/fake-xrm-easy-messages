@@ -212,8 +212,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteMultipleRequest
             var response = _service.Execute(executeMultipleRequest) as ExecuteMultipleResponse;
 
             Assert.True(response.IsFaulted);
-            Assert.NotEmpty(response.Responses);
-            Assert.Equal(1, response.Responses.Count);
+            Assert.Single(response.Responses);
 
             Assert.NotNull(_service.Retrieve(Account.EntityLogicalName, account1.Id, new ColumnSet(true)));
         }
@@ -325,7 +324,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteMultipleRequest
             Assert.True(response.IsFaulted);
             Assert.NotEmpty(response.Responses);
 
-            Assert.True(response.Responses.Any(resp => resp.Fault != null));
+            Assert.Contains(response.Responses, (resp) => resp.Fault != null);
 
             Assert.NotNull(_service.Retrieve(Account.EntityLogicalName, account1.Id, new ColumnSet(true)));
             Assert.NotNull(_service.Retrieve(Account.EntityLogicalName, account3.Id, new ColumnSet(true)));
@@ -383,7 +382,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteMultipleRequest
             Assert.True(response.IsFaulted);
             Assert.NotEmpty(response.Responses);
 
-            Assert.True(response.Responses.Any(resp => resp.Fault != null));
+            Assert.Contains(response.Responses, (resp) => resp.Fault != null);
 
             Assert.NotNull(_service.Retrieve(Account.EntityLogicalName, account1.Id, new ColumnSet(true)));
             Assert.Throws<FaultException<OrganizationServiceFault>>(() => _service.Retrieve(Account.EntityLogicalName, account3.Id, new ColumnSet(true)));

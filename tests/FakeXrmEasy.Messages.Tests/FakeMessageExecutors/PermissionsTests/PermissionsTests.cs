@@ -665,7 +665,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PermissionsTests
             };
             RetrieveSharedPrincipalsAndAccessResponse resp = (RetrieveSharedPrincipalsAndAccessResponse)_service.Execute(req);
 
-            Assert.Equal(1, resp.PrincipalAccesses.Length);
+            Assert.Single(resp.PrincipalAccesses);
         }
     }
 }

@@ -89,7 +89,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.InitializeFromRequestT
             var result = (InitializeFromResponse)_service.Execute(req);
             var contact = result.Entity.ToEntity<Contact>();
             Assert.Equal("Arjen", contact.FirstName);
-            Assert.Equal(null, contact.LastName);
+            Assert.Null(contact.LastName);
         }
 
         [Fact]
