@@ -28,7 +28,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RetrieveOptionSetReque
 
             var response = ((RetrieveOptionSetResponse)executor.Execute(req, _context));
 
-            Assert.True(optionSet.Name.Equals(((Microsoft.Xrm.Sdk.Metadata.OptionSetMetadata)response.OptionSetMetadata).Name));
+            Assert.Equal(optionSet.Name, ((Microsoft.Xrm.Sdk.Metadata.OptionSetMetadata)response.OptionSetMetadata).Name);
         }
 
         [Fact]

@@ -286,7 +286,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
             Assert.Equal(2, rows.Count());
 
             var rowsWithLinkedData = rows.Where(r => r.Element("aa.firstname") != null);
-            Assert.Equal(1, rowsWithLinkedData.Count());
+            Assert.Single(rowsWithLinkedData);
         }
 
         [Fact]
@@ -353,7 +353,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
             Assert.NotNull(responseXml.Element("resultset"));
 
             var rows = responseXml.Element("resultset").Elements("result");
-            Assert.Equal(1, rows.Count());
+            Assert.Single(rows);
 
             var linkedAttributes = rows.First().Elements("systemuser.fullname");
             Assert.Equal(3, linkedAttributes.Count());
