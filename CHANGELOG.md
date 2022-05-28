@@ -1,5 +1,11 @@
-## [3.0.2]
 
+## [3.1.0]
+
+### Changed
+
+Update executor after fix DynamicsValue/fake-xrm-easy#16 was introduced.
+
+## [3.0.2]
 ### Changed
 
 Bump Dataverse dependency to 0.6.1 from 0.5.10 to solve DynamicsValue/fake-xrm-easy#20

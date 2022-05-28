@@ -51,6 +51,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
                 {
                     TopCount = 1,
                     ColumnSet = new ColumnSet("teammembershipid"),
+                    PageInfo = null,
                     Criteria =
                     {
                         Conditions =
