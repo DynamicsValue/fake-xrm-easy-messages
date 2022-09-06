@@ -2,6 +2,7 @@
 
 ### Changed
 
+- Replace references to PullRequestException by UnsupportedExceptionFactory
 - Fix Sonar Quality Gate settings: DynamicsValue/fake-xrm-easy#28
 
 ## [2.1.1]
