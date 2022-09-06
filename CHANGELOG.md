@@ -1,3 +1,9 @@
+## [3.2.0]
+
+### Changed
+
+- Replace references to PullRequestException by UnsupportedExceptionFactory
+- Fix Sonar Quality Gate settings: DynamicsValue/fake-xrm-easy#28
 ## [3.1.2]
 
 - Bump dataverse dependency to 1.0.1

@@ -9,18 +9,36 @@ using System.Linq;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
+    /// <summary>
+    /// A fake messag executor that implements the InitializeFromRequest message
+    /// </summary>
     public class InitializeFromRequestExecutor : IFakeMessageExecutor
     {
+        /// <summary>
+        /// Return true if the message can handle this request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public bool CanExecute(OrganizationRequest request)
         {
             return request is InitializeFromRequest;
         }
 
+        /// <summary>
+        /// Gets the request that will be handled
+        /// </summary>
+        /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
             return typeof(InitializeFromRequest);
         }
 
+        /// <summary>
+        /// Executes the fake implementation of this request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             var req = request as InitializeFromRequest;
@@ -29,7 +47,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
 
             //TODO: Implement logic to filter mapping attributes based on the req.TargetFieldType
             if (req.TargetFieldType != TargetFieldType.All)
-                throw PullRequestException.PartiallyNotImplementedOrganizationRequest(req.GetType(), "logic for filtering attributes based on TargetFieldType other than All is missing");
+                throw UnsupportedExceptionFactory.PartiallyNotImplementedOrganizationRequest(ctx.LicenseContext.Value, req.GetType(), "logic for filtering attributes based on TargetFieldType other than All is missing");
 
             var service = ctx.GetOrganizationService();
             var fetchXml = string.Format(FetchMappingsByEntity, req.EntityMoniker.LogicalName, req.TargetEntityName);
