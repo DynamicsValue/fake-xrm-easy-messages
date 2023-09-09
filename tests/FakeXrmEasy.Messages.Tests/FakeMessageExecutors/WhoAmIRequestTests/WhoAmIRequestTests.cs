@@ -2,12 +2,20 @@
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
+using Crm;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
 {
     public class WhoAmIRequestTests : FakeXrmEasyTestsBase
     {
+        private readonly Entity _organization;
+
+        public WhoAmIRequestTests() : base()
+        {
+            _organization = new Organization() { Id = Guid.NewGuid() };
+        }
+        
         [Fact]
         public void When_a_who_am_i_request_is_invoked_the_caller_id_is_returned()
         {
@@ -22,16 +30,15 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
         [Fact]
         public void When_a_who_am_i_request_is_invoked_the_organization_is_returned_when_the_user_belongs_to_an_organization()
         {
-
-            var user = new Entity("systemuser")
+            var user = new SystemUser()
             {
                 Id = Guid.NewGuid(),
-                ["organizationid"] = (Guid?)organization_.Id
+                ["organizationid"] = (Guid?)_organization.Id
             };
 
             var dbContent = new List<Entity> {
               user,
-              organization_
+              _organization
             };
 
             _context.CallerProperties.CallerId = new EntityReference() { Id = user.Id, Name = "Super Faked User" };
@@ -41,19 +48,15 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
             var response = _service.Execute(req) as WhoAmIResponse;
 
             Assert.Equal(user.Id, response.UserId);
-            Assert.Equal(organization_.Id, response.OrganizationId);
+            Assert.Equal(_organization.Id, response.OrganizationId);
         }
 
         [Fact]
         public void When_a_who_am_i_request_is_invoked_the_business_unit_is_returned_when_the_user_belongs_to_a_business_unit()
         {
+            var businessUnit = new BusinessUnit() { Id = Guid.NewGuid() };
 
-            var businessUnit = new Entity("businessunit")
-            {
-                Id = Guid.NewGuid()
-            };
-
-            var user = new Entity("systemuser")
+            var user = new SystemUser()
             {
                 Id = Guid.NewGuid(),
                 ["businessunitid"] = businessUnit.ToEntityReference()
@@ -77,22 +80,19 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
         [Fact]
         public void When_a_who_am_i_request_is_invoked_the_business_unit_and_organisation_are_returned_when_the_user_belongs_to__business_unit_and_organisation()
         {
-            var businessUnit = new Entity("businessunit")
-            {
-                Id = Guid.NewGuid()
-            };
-
-            var user = new Entity("systemuser")
+            var businessUnit = new BusinessUnit() { Id = Guid.NewGuid() };
+            
+            var user = new SystemUser()
             {
                 Id = Guid.NewGuid(),
                 ["businessunitid"] = businessUnit.ToEntityReference(),
-                ["organizationid"] = (Guid?)organization_.Id
+                ["organizationid"] = (Guid?)_organization.Id
             };
 
             var dbContent = new List<Entity> {
               user,
               businessUnit,
-              organization_
+              _organization
             };
 
             _context.CallerProperties.CallerId = new EntityReference() { Id = user.Id, Name = "Super Faked User" };
@@ -103,20 +103,20 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
 
             Assert.Equal(user.Id, response.UserId);
             Assert.Equal(businessUnit.Id, response.BusinessUnitId);
-            Assert.Equal(organization_.Id, response.OrganizationId);
+            Assert.Equal(_organization.Id, response.OrganizationId);
         }
 
         [Fact]
         public void When_a_who_am_i_request_is_invoked_the_business_unit_and_organisation_are_returned_when_the_user_belongs_to_a_business_unit_and_the_business_unit_has_an_organisation()
         {
 
-            var businessUnit = new Entity("businessunit")
+            var businessUnit = new BusinessUnit()
             {
                 Id = Guid.NewGuid(),
-                ["organizationid"] = organization_.ToEntityReference()
+                ["organizationid"] = _organization.ToEntityReference()
             };
 
-            var user = new Entity("systemuser")
+            var user = new SystemUser()
             {
                 Id = Guid.NewGuid(),
                 ["businessunitid"] = businessUnit.ToEntityReference(),
@@ -125,7 +125,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
             var dbContent = new List<Entity> {
               user,
               businessUnit,
-              organization_
+              _organization
             };
 
             _context.CallerProperties.CallerId = new EntityReference() { Id = user.Id, Name = "Super Faked User" };
@@ -136,13 +136,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
 
             Assert.Equal(user.Id, response.UserId);
             Assert.Equal(businessUnit.Id, response.BusinessUnitId);
-            Assert.Equal(organization_.Id, response.OrganizationId);
+            Assert.Equal(_organization.Id, response.OrganizationId);
         }
-
-        private readonly Entity organization_ = new Entity("organization")
-        {
-            Id = Guid.NewGuid()
-        };
-
     }
 }

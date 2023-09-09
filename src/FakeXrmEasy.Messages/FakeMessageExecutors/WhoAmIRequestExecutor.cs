@@ -16,8 +16,6 @@ namespace FakeXrmEasy.FakeMessageExecutors
 
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
-            var req = request as WhoAmIRequest;
-
             var callerId = ctx.CallerProperties.CallerId.Id;
 
             var results = new ParameterCollection {

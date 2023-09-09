@@ -9,7 +9,7 @@
     <TargetFrameworks Condition="'$(Configuration)'=='FAKE_XRM_EASY_2013'">net452</TargetFrameworks>
     <TargetFrameworks Condition="'$(Configuration)'=='FAKE_XRM_EASY'">net452</TargetFrameworks>
     <PackageId>FakeXrmEasy.Messages</PackageId>
-    <VersionPrefix>2.3.0</VersionPrefix>
+    <VersionPrefix>2.3.1</VersionPrefix>
     <Authors>Jordi Montaña</Authors>
     <Company>Dynamics Value</Company>
     <Title>FakeXrmEasy Messages</Title>
@@ -95,10 +95,10 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net452' And '$(Configuration)'=='FAKE_XRM_EASY'">
-    <PackageReference Include="Microsoft.Xrm.Sdk.2011" Version="[5.0.18]" />
-    <PackageReference Include="Microsoft.Crm.Sdk.Proxy.2011" Version="[5.0.18]" />
-    <PackageReference Include="Microsoft.Xrm.Sdk.Workflow.2011" Version="[5.0.18]" />
-    <PackageReference Include="Microsoft.Xrm.Client.2011" Version="[5.0.18]" />
+    <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="[5.0.18]" />
+    <PackageReference Include="Microsoft.CrmSdk.Extensions" Version="[5.0.18]" />
+    <PackageReference Include="Microsoft.CrmSdk.Workflow" Version="[5.0.18]" />
+    <PackageReference Include="Microsoft.CrmSdk.Deployment" Version="[5.0.18]" />
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
 

@@ -1,3 +1,11 @@
+
+## [2.3.1]
+
+### Changed
+
+- Returns organisation and business unit in WhoAmIRequest to support Calendar rules - https://github.com/DynamicsValue/fake-xrm-easy/issues/23
+- Update legacy CRM SDK 2011 dependency to use official MS package - https://github.com/DynamicsValue/fake-xrm-easy/issues/105
+
 ## [2.3.0]
 
 ### Changed
