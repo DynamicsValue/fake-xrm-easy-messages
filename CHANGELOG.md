@@ -1,3 +1,9 @@
+## [2.3.3]
+
+### Changed
+
+- Updated build scripts so that it actually deletes bin folders as opposed to doing dotnet clean -  https://github.com/DynamicsValue/fake-xrm-easy/issues/76
+- Upgraded GitHub Actions to update Java major version to run SonarCloud analysis - https://github.com/DynamicsValue/fake-xrm-easy/issues/110
 
 ## [2.3.1]
 
@@ -31,11 +37,9 @@
 
 ### Changed
 
-Update executor after fix DynamicsValue/fake-xrm-easy#16 was introduced.
-
-Update package reference ranges to use 2.x versions only.
-
-Bump Microsoft.CrmSdk.CoreAssemblies to version 9.0.2.27 to support plugin telemetry - DynamicsValue/fake-xrm-easy#24
+ - Update executor after fix DynamicsValue/fake-xrm-easy#16 was introduced.
+ - Update package reference ranges to use 2.x versions only.
+ - Bump Microsoft.CrmSdk.CoreAssemblies to version 9.0.2.27 to support plugin telemetry - DynamicsValue/fake-xrm-easy#24
 
 
 

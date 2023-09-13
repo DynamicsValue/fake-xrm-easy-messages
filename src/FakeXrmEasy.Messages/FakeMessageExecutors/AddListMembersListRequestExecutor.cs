@@ -7,20 +7,38 @@ using FakeXrmEasy.Abstractions.FakeMessageExecutors;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
+    /// <summary>
+    /// Implements AddListMembersListRequest : https://learn.microsoft.com/en-us/dotnet/api/microsoft.crm.sdk.messages.addlistmemberslistrequest?view=dataverse-sdk-latest
+    /// </summary>
     public class AddListMembersListRequestExecutor : IFakeMessageExecutor
     {
-        public enum ListCreatedFromCode
+        /// <summary>
+        /// Defines the possible entities from where a member list can be created
+        /// </summary>
+        private enum ListCreatedFromCode
         {
             Account = 1,
             Contact = 2,
             Lead = 4
         }
 
+        /// <summary>
+        /// Determines if the given request can be executed by this executor
+        /// </summary>
+        /// <param name="request">The OrganizationRequest that is currently executing</param>
+        /// <returns></returns>
         public bool CanExecute(OrganizationRequest request)
         {
             return request is AddListMembersListRequest;
         }
 
+        /// <summary>
+        /// Implements the execution of the current request with this executor against a particular XrmFakedContext
+        /// </summary>
+        /// <param name="request">The current request that is being executed</param>
+        /// <param name="ctx">The instance of an XrmFakedContext that the request will be executed against</param>
+        /// <returns>AddListMembersListResponse</returns>
+        /// <exception cref="Exception"></exception>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             var req = (AddListMembersListRequest)request;
@@ -80,8 +98,8 @@ namespace FakeXrmEasy.FakeMessageExecutors
             foreach (var memberId in req.MemberIds)
             {
                 var member = ctx.CreateQuery(memberEntityName)
-            .Where(e => e.Id == memberId)
-            .FirstOrDefault();
+                    .Where(e => e.Id == memberId)
+                    .FirstOrDefault();
 
                 if (member == null)
                 {
@@ -99,6 +117,10 @@ namespace FakeXrmEasy.FakeMessageExecutors
             return new AddListMembersListResponse();
         }
 
+        /// <summary>
+        /// Returns the type of the concrete OrganizationRequest that this executor implements
+        /// </summary>
+        /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
             return typeof(AddListMembersListRequest);
