@@ -4,6 +4,7 @@ using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Linq;
+using FakeXrmEasy.FakeMessageExecutors.Exceptions.WhoIAmRequest;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
@@ -79,6 +80,10 @@ namespace FakeXrmEasy.FakeMessageExecutors
                 var bu = ctx.CreateQuery("businessunit")
                             .Where(b => b.Id == buId)
                             .SingleOrDefault();
+                if(bu == null)
+                {
+                    throw new BusinessUnitNotFoundException(buId);
+                }
                 var orgRef = bu.GetAttributeValue<EntityReference>("organizationid");
                 orgId = orgRef?.Id ?? Guid.Empty;
             }

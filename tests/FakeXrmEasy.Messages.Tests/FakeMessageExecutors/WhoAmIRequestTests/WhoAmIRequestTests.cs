@@ -3,6 +3,8 @@ using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using Crm;
+using FakeItEasy;
+using FakeXrmEasy.FakeMessageExecutors.Exceptions.WhoIAmRequest;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
@@ -78,7 +80,29 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
         }
 
         [Fact]
-        public void When_a_who_am_i_request_is_invoked_the_business_unit_and_organisation_are_returned_when_the_user_belongs_to__business_unit_and_organisation()
+        public void When_a_who_am_i_request_is_invoked_with_a_user_with_a_non_existing_business_unit_an_exception_is_thrown()
+        {
+            var businessUnit = new BusinessUnit() { Id = Guid.NewGuid() };
+
+            var user = new SystemUser()
+            {
+                Id = Guid.NewGuid(),
+                ["businessunitid"] = businessUnit.ToEntityReference()
+            };
+
+            var dbContent = new List<Entity> {
+                user
+            };
+
+            _context.CallerProperties.CallerId = new EntityReference() { Id = user.Id, Name = "Super Faked User" };
+            _context.Initialize(dbContent);
+
+            var req = new WhoAmIRequest();
+            A.CallTo(() => _service.Execute(req)).Throws<BusinessUnitNotFoundException>();
+        }
+        
+        [Fact]
+        public void When_a_who_am_i_request_is_invoked_the_business_unit_and_organisation_are_returned_when_the_user_belongs_to_business_unit_and_organisation()
         {
             var businessUnit = new BusinessUnit() { Id = Guid.NewGuid() };
             
@@ -109,7 +133,6 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
         [Fact]
         public void When_a_who_am_i_request_is_invoked_the_business_unit_and_organisation_are_returned_when_the_user_belongs_to_a_business_unit_and_the_business_unit_has_an_organisation()
         {
-
             var businessUnit = new BusinessUnit()
             {
                 Id = Guid.NewGuid(),
