@@ -98,7 +98,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WhoAmIRequestTests
             _context.Initialize(dbContent);
 
             var req = new WhoAmIRequest();
-            A.CallTo(() => _service.Execute(req)).Throws<BusinessUnitNotFoundException>();
+            Assert.Throws<BusinessUnitNotFoundException>(() => _service.Execute(req));
         }
         
         [Fact]
