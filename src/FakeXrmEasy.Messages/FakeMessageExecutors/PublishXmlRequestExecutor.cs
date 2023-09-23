@@ -3,6 +3,7 @@ using FakeXrmEasy.Abstractions.FakeMessageExecutors;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
+using FakeXrmEasy.FakeMessageExecutors.Exceptions.PublishXmlRequest;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
@@ -31,7 +32,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
 
             if (string.IsNullOrWhiteSpace(req.ParameterXml))
             {
-                throw new Exception("ParameterXml property must not be blank.");
+                throw new ParameterXmlMissingException();
             }
             return new PublishXmlResponse()
             {
