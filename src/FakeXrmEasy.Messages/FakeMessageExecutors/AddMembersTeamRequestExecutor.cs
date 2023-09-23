@@ -9,11 +9,23 @@ namespace FakeXrmEasy.FakeMessageExecutors
 {
 	public class AddMembersTeamRequestExecutor : IFakeMessageExecutor
 	{
+		/// <summary>
+		/// Determines if the given request can be executed by this executor
+		/// </summary>
+		/// <param name="request">The OrganizationRequest that is currently executing</param>
+		/// <returns></returns>
 		public bool CanExecute(OrganizationRequest request)
 		{
 			return request is AddMembersTeamRequest;
 		}
 
+		/// <summary>
+		/// Implements the execution of the current request with this executor against a particular XrmFakedContext
+		/// </summary>
+		/// <param name="request">The current request that is being executed</param>
+		/// <param name="ctx">The instance of an XrmFakedContext that the request will be executed against</param>
+		/// <returns>AddMembersTeamRequestResponse</returns>
+		/// <exception cref="Exception"></exception>
 		public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
 		{
 			var req = (AddMembersTeamRequest)request;
@@ -38,8 +50,6 @@ namespace FakeXrmEasy.FakeMessageExecutors
 				throw FakeOrganizationServiceFaultFactory.New(ErrorCodes.ObjectDoesNotExist, string.Format("Team with Id {0} wasn't found", req.TeamId.ToString()));
 			}
 
-			//ToDo:	throw FakeOrganizationServiceFaultFactory.New(ErrorCodes.CannotAddMembersToDefaultTeam, "Can't add members to the default business unit team.");
-
 			foreach (var memberId in req.MemberIds)
 			{
 				var user = ctx.CreateQuery("systemuser").FirstOrDefault(e => e.Id == memberId);
@@ -58,6 +68,10 @@ namespace FakeXrmEasy.FakeMessageExecutors
 			return new AddMembersTeamResponse();
 		}
 
+		/// <summary>
+		/// Returns the type of the concrete OrganizationRequest that this executor implements
+		/// </summary>
+		/// <returns></returns>
 		public Type GetResponsibleRequestType()
 		{
 			return typeof(AddMembersTeamRequest);

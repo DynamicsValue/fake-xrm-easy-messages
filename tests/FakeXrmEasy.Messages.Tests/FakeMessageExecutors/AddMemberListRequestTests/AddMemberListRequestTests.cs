@@ -22,11 +22,6 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             Lead = 4
         }
 
-
-        public Tests()
-        {
-        }
-
         [Fact]
         public void When_a_member_is_added_to_a_non_existing_list_exception_is_thrown()
         {
