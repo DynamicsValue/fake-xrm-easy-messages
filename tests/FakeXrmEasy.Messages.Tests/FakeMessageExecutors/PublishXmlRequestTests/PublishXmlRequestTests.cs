@@ -1,5 +1,6 @@
 ﻿using Microsoft.Crm.Sdk.Messages;
 using System;
+using FakeXrmEasy.FakeMessageExecutors.Exceptions.PublishXmlRequest;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PublishXmlRequestTests
@@ -14,7 +15,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PublishXmlRequestTests
                 ParameterXml = ""
             };
 
-            Assert.Throws<Exception>(() => _service.Execute(req));
+            Assert.Throws<ParameterXmlMissingException>(() => _service.Execute(req));
         }
 
         [Fact]
