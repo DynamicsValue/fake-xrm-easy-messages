@@ -13,13 +13,25 @@ namespace FakeXrmEasy.FakeMessageExecutors
 {
     public class ExecuteFetchRequestExecutor : IFakeMessageExecutor
     {
-        private Dictionary<string, int?> _typeCodes = new Dictionary<string, int?>();
+        private readonly Dictionary<string, int?> _typeCodes = new Dictionary<string, int?>();
 
+        /// <summary>
+        /// Determines if the given request can be executed by this executor
+        /// </summary>
+        /// <param name="request">The OrganizationRequest that is currently executing</param>
+        /// <returns></returns>
         public bool CanExecute(OrganizationRequest request)
         {
             return request is ExecuteFetchRequest;
         }
 
+        /// <summary>
+        /// Implements the execution of the current request with this executor against a particular XrmFakedContext
+        /// </summary>
+        /// <param name="request">The current request that is being executed</param>
+        /// <param name="ctx">The instance of an XrmFakedContext that the request will be executed against</param>
+        /// <returns>ExecuteFetchResponse</returns>
+        /// <exception cref="Exception"></exception>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             var executeFetchRequest = (ExecuteFetchRequest)request;
@@ -68,7 +80,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
 
             return response;
         }
-
+        
         private XElement CreateXmlResult(Entity entity, IXrmFakedContext ctx, string[] allowedAliases)
         {
             var row = new XElement("result");
@@ -76,28 +88,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
 
             foreach (var entAtt in entity.Attributes)
             {
-                var attribute = entAtt;
-
-                // Depricated ExecuteFetch doesn't use implicitly numbered enitity aliases
-                if (attribute.Key.Contains("."))
-                {
-                    var alias = attribute.Key.Substring(0, attribute.Key.IndexOf(".", StringComparison.Ordinal));
-                    if (!allowedAliases.Contains(alias))
-                    {
-                        // The maximum amount of linked entities is 10, 
-                        var newAlias = alias.Substring(0, alias.Length - (!alias.EndsWith("10") ? 1 : 2));
-                        if (allowedAliases.Contains(newAlias))
-                        {
-                            var newKey = attribute.Key.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
-                            newKey[0] = newAlias;
-                            attribute = new KeyValuePair<string, object>(string.Join(".", newKey), attribute.Value);
-                        }
-                        else
-                        {
-                            // unknow alias, just leave it
-                        }
-                    }
-                }
+                var attribute = AddAttributeAliases(allowedAliases, entAtt);
 
                 var attributeValueElement = AttributeValueToFetchResult(attribute, formattedValues, ctx);
                 if (attributeValueElement == null)
@@ -111,7 +102,35 @@ namespace FakeXrmEasy.FakeMessageExecutors
             return row;
         }
 
-        public XElement AttributeValueToFetchResult(KeyValuePair<string, object> entAtt, FormattedValueCollection formattedValues, IXrmFakedContext ctx)
+        private static KeyValuePair<string, object> AddAttributeAliases(string[] allowedAliases, KeyValuePair<string, object> entAtt)
+        {
+            var attribute = entAtt;
+
+            // Deprecated ExecuteFetch doesn't use implicitly numbered entity aliases
+            if (attribute.Key.Contains("."))
+            {
+                var alias = attribute.Key.Substring(0, attribute.Key.IndexOf(".", StringComparison.Ordinal));
+                if (!allowedAliases.Contains(alias))
+                {
+                    // The maximum amount of linked entities is 10, 
+                    var newAlias = alias.Substring(0, alias.Length - (!alias.EndsWith("10") ? 1 : 2));
+                    if (allowedAliases.Contains(newAlias))
+                    {
+                        var newKey = attribute.Key.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                        newKey[0] = newAlias;
+                        attribute = new KeyValuePair<string, object>(string.Join(".", newKey), attribute.Value);
+                    }
+                    else
+                    {
+                        // unknown alias, just leave it
+                    }
+                }
+            }
+
+            return attribute;
+        }
+
+        internal XElement AttributeValueToFetchResult(KeyValuePair<string, object> entAtt, FormattedValueCollection formattedValues, IXrmFakedContext ctx)
         {
             XElement attributeValueElement;
             if (entAtt.Value == null)
@@ -120,54 +139,31 @@ namespace FakeXrmEasy.FakeMessageExecutors
             {
                 attributeValueElement = XElement.Parse(String.Format("<{0} date=\"{1:yyyy-MM-dd}\" time=\"{1:hh:mm tt}\">{1:yyyy-MM-ddTHH:mm:sszz:00}</{0}>", entAtt.Key, entAtt.Value));
             }
-            else if (entAtt.Value is EntityReference)
+            else if (entAtt.Value is EntityReference entRef)
             {
-                var entRef = (EntityReference)entAtt.Value;
-                if (!_typeCodes.ContainsKey(entRef.LogicalName))
-                {
-                    var entType = ctx.FindReflectedType(entRef.LogicalName);
-                    var typeCode = entType.GetField("EntityTypeCode").GetValue(null);
-
-                    _typeCodes.Add(entRef.LogicalName, (int?)typeCode);
-                }
-
-                attributeValueElement = XElement.Parse(String.Format("<{0} dsc=\"0\" yomi=\"{1}\" name=\"{1}\" type=\"{3}\">{2:D}</{0}>", entAtt.Key, entRef.Name, entRef.Id.ToString().ToUpper(), _typeCodes[entRef.LogicalName]));
+                attributeValueElement = EntityReferenceValueToFetchResultValue(entAtt, ctx, entRef);
             }
             else if (entAtt.Value is bool?)
             {
-                var boolValue = (bool?)entAtt.Value;
-
-                var formattedValue = boolValue.ToString();
-                if (formattedValues.ContainsKey(entAtt.Key))
-                    formattedValue = formattedValues[entAtt.Key];
-                attributeValueElement = XElement.Parse(String.Format("<{0} name=\"{1}\">{2}</{0}>", entAtt.Key, formattedValue, Convert.ToInt16(boolValue)));
+                attributeValueElement = BooleanAttributeValueToFetchResultValue(entAtt, formattedValues);
             }
-            else if (entAtt.Value is OptionSetValue)
+            else if (entAtt.Value is OptionSetValue osValue)
             {
-                var osValue = (OptionSetValue)entAtt.Value;
-
                 var formattedValue = osValue.Value.ToString();
                 if (formattedValues.ContainsKey(entAtt.Key))
                     formattedValue = formattedValues[entAtt.Key];
                 attributeValueElement = XElement.Parse(String.Format("<{0} name=\"{1}\" formattedvalue=\"{2}\">{2}</{0}>", entAtt.Key, formattedValue, osValue.Value));
             }
-            else if (entAtt.Value is Enum)
+            else if (entAtt.Value is Enum enumValue)
             {
-                var osValue = (Enum)entAtt.Value;
-
-                var formattedValue = osValue.ToString();
+                var formattedValue = enumValue.ToString();
                 if (formattedValues.ContainsKey(entAtt.Key))
                     formattedValue = formattedValues[entAtt.Key];
-                attributeValueElement = XElement.Parse(String.Format("<{0} name=\"{1}\" formattedvalue=\"{2}\">{2}</{0}>", entAtt.Key, formattedValue, osValue));
+                attributeValueElement = XElement.Parse(String.Format("<{0} name=\"{1}\" formattedvalue=\"{2}\">{2}</{0}>", entAtt.Key, formattedValue, enumValue));
             }
-            else if (entAtt.Value is Money)
+            else if (entAtt.Value is Money moneyValue)
             {
-                var moneyValue = (Money)entAtt.Value;
-
-                var formattedValue = moneyValue.Value.ToString();
-                if (formattedValues.ContainsKey(entAtt.Key))
-                    formattedValue = formattedValues[entAtt.Key];
-                attributeValueElement = XElement.Parse(String.Format("<{0} formattedvalue=\"{1}\">{2:0.##}</{0}>", entAtt.Key, formattedValue, moneyValue.Value));
+                attributeValueElement = MoneyAttributeValueToFetchResultValue(entAtt, formattedValues, moneyValue);
             }
             else if (entAtt.Value is decimal?)
             {
@@ -182,13 +178,12 @@ namespace FakeXrmEasy.FakeMessageExecutors
             }
             else if (entAtt.Value is Guid)
             {
-                attributeValueElement = XElement.Parse(String.Format("<{0}>{1}</{0}>", entAtt.Key, entAtt.Value.ToString().ToUpper())); ;
+                attributeValueElement = XElement.Parse(String.Format("<{0}>{1}</{0}>", entAtt.Key, entAtt.Value.ToString().ToUpper()));
             }
 #if FAKE_XRM_EASY_9
-            else if (entAtt.Value is OptionSetValueCollection)
+            else if (entAtt.Value is OptionSetValueCollection optionSetValueCollection)
             {
-                var optionSetValueCollectionVal = entAtt.Value as OptionSetValueCollection;
-                var values = String.Join(",", optionSetValueCollectionVal.Select(o => o.Value).OrderBy(v => v));
+                var values = String.Join(",", optionSetValueCollection.Select(o => o.Value).OrderBy(v => v));
                 var serializedCollection = String.Join(",", "[-1", values, "-1]");
                 attributeValueElement = XElement.Parse(String.Format("<{0} name=\"{1}\">{1}</{0}>", entAtt.Key, serializedCollection));
             }
@@ -200,6 +195,54 @@ namespace FakeXrmEasy.FakeMessageExecutors
             return attributeValueElement;
         }
 
+        private static XElement MoneyAttributeValueToFetchResultValue(KeyValuePair<string, object> entAtt,
+            FormattedValueCollection formattedValues, Money moneyValue)
+        {
+            XElement attributeValueElement;
+            var formattedValue = moneyValue.Value.ToString();
+            if (formattedValues.ContainsKey(entAtt.Key))
+                formattedValue = formattedValues[entAtt.Key];
+            attributeValueElement = XElement.Parse(String.Format("<{0} formattedvalue=\"{1}\">{2:0.##}</{0}>", entAtt.Key,
+                formattedValue, moneyValue.Value));
+            return attributeValueElement;
+        }
+
+        private static XElement BooleanAttributeValueToFetchResultValue(KeyValuePair<string, object> entAtt,
+            FormattedValueCollection formattedValues)
+        {
+            XElement attributeValueElement;
+            var boolValue = (bool?)entAtt.Value;
+
+            var formattedValue = boolValue.ToString();
+            if (formattedValues.ContainsKey(entAtt.Key))
+                formattedValue = formattedValues[entAtt.Key];
+            attributeValueElement = XElement.Parse(String.Format("<{0} name=\"{1}\">{2}</{0}>", entAtt.Key, formattedValue,
+                Convert.ToInt16(boolValue)));
+            return attributeValueElement;
+        }
+
+        private XElement EntityReferenceValueToFetchResultValue(KeyValuePair<string, object> entAtt, IXrmFakedContext ctx,
+            EntityReference entRef)
+        {
+            XElement attributeValueElement;
+            if (!_typeCodes.ContainsKey(entRef.LogicalName))
+            {
+                var entType = ctx.FindReflectedType(entRef.LogicalName);
+                var typeCode = entType.GetField("EntityTypeCode").GetValue(null);
+
+                _typeCodes.Add(entRef.LogicalName, (int?)typeCode);
+            }
+
+            attributeValueElement =
+                XElement.Parse(String.Format("<{0} dsc=\"0\" yomi=\"{1}\" name=\"{1}\" type=\"{3}\">{2:D}</{0}>", entAtt.Key,
+                    entRef.Name, entRef.Id.ToString().ToUpper(), _typeCodes[entRef.LogicalName]));
+            return attributeValueElement;
+        }
+
+        /// <summary>
+        /// Returns the type of the concrete OrganizationRequest that this executor implements
+        /// </summary>
+        /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
             return typeof(ExecuteFetchRequest);

@@ -15,9 +15,9 @@ namespace FakeXrmEasy.FakeMessageExecutors
     public class InitializeFromRequestExecutor : IFakeMessageExecutor
     {
         /// <summary>
-        /// Return true if the message can handle this request
+        /// Determines if the given request can be executed by this executor
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="request">The OrganizationRequest that is currently executing</param>
         /// <returns></returns>
         public bool CanExecute(OrganizationRequest request)
         {
@@ -25,7 +25,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
         }
 
         /// <summary>
-        /// Gets the request that will be handled
+        /// Returns the type of the concrete OrganizationRequest that this executor implements
         /// </summary>
         /// <returns></returns>
         public Type GetResponsibleRequestType()
@@ -34,18 +34,18 @@ namespace FakeXrmEasy.FakeMessageExecutors
         }
 
         /// <summary>
-        /// Executes the fake implementation of this request
+        /// Implements the execution of the current request with this executor against a particular XrmFakedContext
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="ctx"></param>
-        /// <returns></returns>
+        /// <param name="request">The current request that is being executed</param>
+        /// <param name="ctx">The instance of an XrmFakedContext that the request will be executed against</param>
+        /// <returns>InitializeFromResponse</returns>
+        /// <exception cref="Exception"></exception>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             var req = request as InitializeFromRequest;
             if (req == null)
                 throw FakeOrganizationServiceFaultFactory.New( "Cannot execute InitializeFromRequest without the request");
 
-            //TODO: Implement logic to filter mapping attributes based on the req.TargetFieldType
             if (req.TargetFieldType != TargetFieldType.All)
                 throw UnsupportedExceptionFactory.PartiallyNotImplementedOrganizationRequest(ctx.LicenseContext.Value, req.GetType(), "logic for filtering attributes based on TargetFieldType other than All is missing");
 
@@ -57,24 +57,11 @@ namespace FakeXrmEasy.FakeMessageExecutors
             var source = service.Retrieve(req.EntityMoniker.LogicalName, req.EntityMoniker.Id, columnSet);
 
             // If we are using proxy types, and the appropriate proxy type is found in 
-            // the assembly create an instance of the appropiate class
-            // Othersise return a simple Entity
-            Entity entity = new Entity
-            {
-                LogicalName = req.TargetEntityName,
-                Id = Guid.Empty
-            };
+            // the assembly create an instance of the appropriate class
+            // Otherwise return a simple Entity
 
-            if (ctx.ProxyTypesAssemblies.Count() > 0)
-            {                
-                var subClassType = ctx.FindReflectedType(req.TargetEntityName);
-                if (subClassType != null)
-                {
-                    var instance = Activator.CreateInstance(subClassType);
-                    entity = (Entity) instance;                    
-                }
-            }
-
+            Entity entity = ctx.NewEntityRecord(req.TargetEntityName);
+            
             if (mapping.Entities.Count > 0)
             {
                 foreach (var attr in source.Attributes)
