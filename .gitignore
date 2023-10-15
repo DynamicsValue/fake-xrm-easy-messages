@@ -359,3 +359,5 @@ coverage/
 
 nupkgs/
 packages/
+
+.idea/
