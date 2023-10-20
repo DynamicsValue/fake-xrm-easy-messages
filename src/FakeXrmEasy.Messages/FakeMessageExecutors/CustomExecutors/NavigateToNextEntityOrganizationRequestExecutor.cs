@@ -70,7 +70,8 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                    where c.Id == currentEntityId
                                    select c);
 
-            if (!currentEntities.Any() && currentEntities.Count() != 1) throw new Exception(string.Format("There are no or more than one {0} with Id {1}", currentEntityLogicalName, currentEntityId));
+            if (!currentEntities.Any()) throw new Exception(
+                $"There are no or more than one {currentEntityLogicalName} with Id {currentEntityId}");
 
             // Current Entity
             var currentEntity = currentEntities.First();
@@ -85,7 +86,8 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                 where n.Id == nextEntityId
                                 select n);
 
-            if (!nextEntities.Any() && nextEntities.Count() != 1) throw new Exception(string.Format("There are no or more than one {0} with Id {1}", nextEntityLogicalName, nextEntityId));
+            if (!nextEntities.Any()) throw new Exception(
+                $"There are no or more than one {nextEntityLogicalName} with Id {nextEntityId}");
 
             // Next Entity
             var nextEntity = nextEntities.First();
