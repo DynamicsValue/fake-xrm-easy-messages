@@ -7,6 +7,9 @@ using FakeXrmEasy.Abstractions.FakeMessageExecutors;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
+	/// <summary>
+	/// Implements a fake OrganizationRequest for AddMembersTeamRequest
+	/// </summary>
 	public class AddMembersTeamRequestExecutor : IFakeMessageExecutor
 	{
 		/// <summary>
