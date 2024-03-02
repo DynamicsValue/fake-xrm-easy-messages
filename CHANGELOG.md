@@ -1,5 +1,9 @@
 ## [2.5.0]
 
+### Added
+
+- Add RetrieveCurrentOrganizationRequest executor - https://github.com/DynamicsValue/fake-xrm-easy/issues/136 
+
 ### Changed
 
 - Increase code coverage for NavigateToNextEntityOrganizationRequest
