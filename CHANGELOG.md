@@ -1,3 +1,9 @@
+## [2.5.0]
+
+### Changed
+
+- Remove unnecessary checks in NavigateToNextEntityOrganizationRequestExecutor, thanks Temmy
+
 ## [2.4.0]
 
 ## Added

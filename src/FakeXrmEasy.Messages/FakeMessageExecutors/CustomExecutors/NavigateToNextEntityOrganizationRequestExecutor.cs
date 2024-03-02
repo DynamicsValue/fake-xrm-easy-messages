@@ -71,7 +71,7 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                    select c);
 
             if (!currentEntities.Any()) throw new Exception(
-                $"There are no or more than one {currentEntityLogicalName} with Id {currentEntityId}");
+                $"There is no current entity record with logical name '{currentEntityLogicalName}' and Id '{currentEntityId}'");
 
             // Current Entity
             var currentEntity = currentEntities.First();
@@ -87,7 +87,7 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                 select n);
 
             if (!nextEntities.Any()) throw new Exception(
-                $"There are no or more than one {nextEntityLogicalName} with Id {nextEntityId}");
+                $"There is no entity record with logical name '{currentEntityLogicalName}' and Id '{currentEntityId}'");
 
             // Next Entity
             var nextEntity = nextEntities.First();
