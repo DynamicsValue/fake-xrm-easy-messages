@@ -34,7 +34,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
                 {
                     Endpoints = 
                     {
-                        { EndpointType.OrganizationDataService, "http://baseUrl/XrmServices/2011/OrganizationDataService.svc" }
+                        { EndpointType.OrganizationDataService, "https://baseUrl/XrmServices/2011/OrganizationDataService.svc" }
                     }
                 };
             }
