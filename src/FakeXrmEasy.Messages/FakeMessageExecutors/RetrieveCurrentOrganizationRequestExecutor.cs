@@ -1,3 +1,5 @@
+#if FAKE_XRM_EASY_9 || FAKE_XRM_EASY_365 || FAKE_XRM_EASY_2016 || FAKE_XRM_EASY_2015
+
 using System;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.FakeMessageExecutors;
@@ -51,3 +53,5 @@ namespace FakeXrmEasy.FakeMessageExecutors
         }
     }
 }
+
+#endif

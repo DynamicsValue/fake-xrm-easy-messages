@@ -1,3 +1,5 @@
+#if FAKE_XRM_EASY_9 || FAKE_XRM_EASY_365 || FAKE_XRM_EASY_2016 || FAKE_XRM_EASY_2015
+
 using System;
 using FakeXrmEasy.Messages.ContextProperties;
 using Microsoft.Crm.Sdk.Messages;
@@ -8,6 +10,29 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RetrieveCurrentOrganiz
 {
     public class RetrieveCurrentOrganizationRequestTests: FakeXrmEasyTestsBase
     {
+        private readonly OrganizationDetail _organizationDetail;
+
+        public RetrieveCurrentOrganizationRequestTests() : base()
+        {
+            _organizationDetail = new OrganizationDetail()
+            {
+                #if FAKE_XRM_EASY_9
+                Geo = "Geo",
+                EnvironmentId = Guid.NewGuid().ToString(),
+                TenantId = Guid.NewGuid().ToString(),
+                #endif
+                State = OrganizationState.Enabled,
+                FriendlyName = "OrgFriendlyName",
+                UniqueName = "UniqueName",
+                UrlName = "UrlName",
+                OrganizationId = Guid.NewGuid(),
+                OrganizationVersion = "0.0.0.0",
+                Endpoints =
+                {
+                    { EndpointType.OrganizationDataService, "http://localhost/XrmService/2011/OrganizationData.svc" }
+                }
+            };
+        }
         [Fact]
         public void Should_retrieve_current_organization_details_if_none_was_set_by_default()
         {
@@ -23,22 +48,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RetrieveCurrentOrganiz
         {
             var currentOrgDetails = new CurrentOrganizationDetails()
             {
-                Details = new OrganizationDetail()
-                {
-                    Geo = "Geo",
-                    EnvironmentId = Guid.NewGuid().ToString(),
-                    State = OrganizationState.Enabled,
-                    FriendlyName = "OrgFriendlyName",
-                    UniqueName = "UniqueName",
-                    UrlName = "UrlName",
-                    OrganizationId = Guid.NewGuid(),
-                    TenantId = Guid.NewGuid().ToString(),
-                    OrganizationVersion = "0.0.0.0",
-                    Endpoints =
-                    {
-                        { EndpointType.OrganizationDataService, "http://localhost/XrmService/2011/OrganizationData.svc" }
-                    }
-                }
+                Details = _organizationDetail
             };
             
             _context.SetProperty(currentOrgDetails);
@@ -47,15 +57,19 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RetrieveCurrentOrganiz
             Assert.NotNull(response);
 
             var orgDetail = (response as RetrieveCurrentOrganizationResponse).Detail;
+            #if FAKE_XRM_EASY_9
             Assert.Equal(currentOrgDetails.Details.EnvironmentId, orgDetail.EnvironmentId);
             Assert.Equal(currentOrgDetails.Details.Geo, orgDetail.Geo);
+            Assert.Equal(currentOrgDetails.Details.TenantId, orgDetail.TenantId);
+            #endif
             Assert.Equal(currentOrgDetails.Details.State, orgDetail.State);
             Assert.Equal(currentOrgDetails.Details.FriendlyName, orgDetail.FriendlyName);
             Assert.Equal(currentOrgDetails.Details.UniqueName, orgDetail.UniqueName);
             Assert.Equal(currentOrgDetails.Details.UrlName, orgDetail.UrlName);
             Assert.Equal(currentOrgDetails.Details.OrganizationId, orgDetail.OrganizationId);
-            Assert.Equal(currentOrgDetails.Details.TenantId, orgDetail.TenantId);
             Assert.Equal(currentOrgDetails.Details.OrganizationVersion, orgDetail.OrganizationVersion);
         }
     }
 }
+
+#endif

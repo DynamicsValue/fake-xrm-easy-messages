@@ -1,3 +1,5 @@
+#if FAKE_XRM_EASY_9 || FAKE_XRM_EASY_365 || FAKE_XRM_EASY_2016 || FAKE_XRM_EASY_2015
+
 using Microsoft.Xrm.Sdk.Organization;
 
 namespace FakeXrmEasy.Messages.ContextProperties
@@ -13,3 +15,4 @@ namespace FakeXrmEasy.Messages.ContextProperties
         public OrganizationDetail Details { get; set; }
     }
 }
+#endif
