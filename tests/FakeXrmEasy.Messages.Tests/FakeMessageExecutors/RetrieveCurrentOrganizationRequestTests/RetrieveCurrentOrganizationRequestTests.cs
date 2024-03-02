@@ -29,7 +29,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RetrieveCurrentOrganiz
                 OrganizationVersion = "0.0.0.0",
                 Endpoints =
                 {
-                    { EndpointType.OrganizationDataService, "http://localhost/XrmService/2011/OrganizationData.svc" }
+                    { EndpointType.OrganizationDataService, "https://localhost/XrmService/2011/OrganizationData.svc" }
                 }
             };
         }
