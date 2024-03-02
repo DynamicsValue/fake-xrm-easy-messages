@@ -2,6 +2,7 @@
 using System.Linq;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.FakeMessageExecutors;
+using FakeXrmEasy.Messages.Exceptions.NavigateToNextEntityOrganizationRequest;
 using Microsoft.Xrm.Sdk;
 
 namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
@@ -70,8 +71,8 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                    where c.Id == currentEntityId
                                    select c);
 
-            if (!currentEntities.Any()) throw new Exception(
-                $"There is no current entity record with logical name '{currentEntityLogicalName}' and Id '{currentEntityId}'");
+            if (!currentEntities.Any()) 
+                throw new CurrentEntityNotFoundException(currentEntityLogicalName,currentEntityId);
 
             // Current Entity
             var currentEntity = currentEntities.First();
@@ -86,9 +87,9 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                 where n.Id == nextEntityId
                                 select n);
 
-            if (!nextEntities.Any()) throw new Exception(
-                $"There is no entity record with logical name '{currentEntityLogicalName}' and Id '{currentEntityId}'");
-
+            if (!nextEntities.Any())
+                throw new NextEntityNotFoundException(nextEntityLogicalName, nextEntityId);
+            
             // Next Entity
             var nextEntity = nextEntities.First();
             nextEntity["stageid"] = newActiveStageId;

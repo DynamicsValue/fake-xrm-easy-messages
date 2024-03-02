@@ -2,6 +2,7 @@
 
 ### Changed
 
+- Increase code coverage for NavigateToNextEntityOrganizationRequest
 - Remove unnecessary checks in NavigateToNextEntityOrganizationRequestExecutor, thanks Temmy
 
 ## [2.4.0]
