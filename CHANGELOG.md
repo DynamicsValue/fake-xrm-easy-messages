@@ -6,7 +6,7 @@
 
 ### Changed
 
-- Fixes responsible type in CloseIndicentRequestExecutor - https://github.com/DynamicsValue/fake-xrm-easy/issues/116
+- Fixes responsible type in CloseIncidentRequestExecutor - https://github.com/DynamicsValue/fake-xrm-easy/issues/116
 - Increase code coverage for NavigateToNextEntityOrganizationRequest
 - Remove unnecessary checks in NavigateToNextEntityOrganizationRequestExecutor, thanks Temmy
 
