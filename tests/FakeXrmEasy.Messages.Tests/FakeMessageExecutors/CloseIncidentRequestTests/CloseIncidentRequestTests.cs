@@ -81,8 +81,6 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
         [Fact]
         public void When_a_request_without_incident_resolution_is_called_exception_is_raised()
         {
-            
-
             var incident = new Entity
             {
                 LogicalName = Crm.Incident.EntityLogicalName,
@@ -145,6 +143,13 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
             var executor = new CloseIncidentRequestExecutor();
             var anotherRequest = new RetrieveMultipleRequest();
             Assert.False(executor.CanExecute(anotherRequest));
+        }
+        
+        [Fact]
+        public void Should_return_correct_responsible_type()
+        {
+            var executor = new CloseIncidentRequestExecutor();
+            Assert.Equal(typeof(CloseIncidentRequest),executor.GetResponsibleRequestType());
         }
     }
 }
