@@ -21,12 +21,18 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
         private const string _selectedTemplateParameterName = "SelectedTemplate";
         private const string _selectedRecordsParameterName = "SelectedRecords";
         private const string _documentTemplateLogicalName = "documenttemplate";
+        
+        /// <summary>
+        /// Determines if the current request can be executed by this executor
+        /// </summary>
+        /// <param name="request">The request being executed</param>
+        /// <returns>true if it can be executed, false otherwise</returns>
         public bool CanExecute(OrganizationRequest request)
         {
             return _requestName.Equals(request.RequestName);
         }
 
-        private void ValidateRequest(OrganizationRequest request, IXrmFakedContext ctx)
+        private void ValidateRequest(OrganizationRequest request)
         {
             if (!request.Parameters.ContainsKey(_entityTypeCodeParameterName))
             {
@@ -62,7 +68,7 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
             return existingTemplate;
         }
 
-        private int GetEntityTypeCode(OrganizationRequest request, IXrmFakedContext ctx)
+        private int GetEntityTypeCode(OrganizationRequest request)
         {
             var entityTypeCode = request.Parameters[_entityTypeCodeParameterName] as int?;
             if (entityTypeCode == null)
@@ -97,12 +103,19 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
             return selectedRecords;
         }
         
+        /// <summary>
+        /// Executes the current request
+        /// </summary>
+        /// <param name="request">The request to be executed</param>
+        /// <param name="ctx">The current IXrmFakedContext that will be used to execute the request</param>
+        /// <returns>A generic OrganizationResponse with a dummy byte array representing the exported Pdf</returns>
+        /// <exception cref="SelectedRecordsNotFoundException"></exception>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
-            ValidateRequest(request, ctx);
+            ValidateRequest(request);
             var documentTemplate = GetTemplate(request, ctx);
             var selectedRecords = GetSelectedRecords(request, ctx);
-            var entityTypeCode = GetEntityTypeCode(request, ctx);
+            var entityTypeCode = GetEntityTypeCode(request);
             
             var reflectedType = ctx.FindReflectedType(entityTypeCode);
             if(reflectedType != null)
@@ -128,11 +141,19 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
             };
         }
 
+        /// <summary>
+        /// Returns the responsible request type for this request.
+        /// </summary>
+        /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
             return typeof(OrganizationRequest);
         }
 
+        /// <summary>
+        /// Returns the request name that this executor implements
+        /// </summary>
+        /// <returns></returns>
         public string GetRequestName()
         {
             return _requestName;
