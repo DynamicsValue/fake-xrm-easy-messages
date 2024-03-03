@@ -1,12 +1,12 @@
 ﻿using Crm;
-using FakeXrmEasy.FakeMessageExecutors.CustomExecutors;
+using FakeXrmEasy.FakeMessageExecutors.GenericExecutors;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Linq;
 using FakeXrmEasy.Messages.Exceptions.NavigateToNextEntityOrganizationRequest;
 using Xunit;
 
-namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CustomExecutors.NavigateToNextEntityRequestTests
+namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.GenericExecutors.NavigateToNextEntityRequestTests
 {
     public class NavigateToNextEntityRequestTests : FakeXrmEasyTestsBase
     {

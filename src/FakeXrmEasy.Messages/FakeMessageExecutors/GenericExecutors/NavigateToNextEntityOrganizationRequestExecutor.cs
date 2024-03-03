@@ -5,7 +5,7 @@ using FakeXrmEasy.Abstractions.FakeMessageExecutors;
 using FakeXrmEasy.Messages.Exceptions.NavigateToNextEntityOrganizationRequest;
 using Microsoft.Xrm.Sdk;
 
-namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
+namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
 {
     /// <summary>
     /// It will navigate to next Entity in Workflow path and add next Stage Id to traversed path.
