@@ -6,6 +6,7 @@
 
 ### Changed
 
+- Introduces validation error when trying to add a user to a default team - https://github.com/DynamicsValue/fake-xrm-easy/issues/108
 - Fixes responsible type in CloseIncidentRequestExecutor - https://github.com/DynamicsValue/fake-xrm-easy/issues/116
 - Increase code coverage for NavigateToNextEntityOrganizationRequest
 - Remove unnecessary checks in NavigateToNextEntityOrganizationRequestExecutor, thanks Temmy

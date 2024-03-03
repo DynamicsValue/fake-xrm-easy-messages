@@ -6,11 +6,27 @@ using System.Linq;
 using Microsoft.Crm.Sdk.Messages;
 using Crm;
 using System.ServiceModel;
+using FakeXrmEasy.Abstractions;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestTests
 {
-    public class Tests : FakeXrmEasyTestsBase
+    public class AddMembersTeamRequestTests : FakeXrmEasyTestsBase
     {
+        private readonly SystemUser _systemUser;
+        private readonly BusinessUnit _businessUnit;
+        private readonly Team _team;
+
+        public AddMembersTeamRequestTests(): base()
+        {
+            _businessUnit = new BusinessUnit() { Id = Guid.NewGuid() };
+            _systemUser = new SystemUser() { Id = Guid.NewGuid() };
+            _team = new Team()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Some team"
+            };
+        }
+        
         [Fact]
         public void When_a_member_is_added_to_a_non_existing_team_exception_is_thrown()
         {
@@ -18,9 +34,9 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestT
             {
                 MemberIds = new[]
                 {
-                    Guid.NewGuid()
+                    _systemUser.Id
                 },
-                TeamId = Guid.NewGuid()
+                TeamId = _team.Id
             };
 
             // Execute the request.
@@ -28,16 +44,13 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestT
         }
 
         [Fact]
-        public void When_a_request_is_called_with_an_empty_teamid_parameter_exception_is_thrown()
+        public void When_a_request_is_called_with_an_empty_teamId_parameter_exception_is_thrown()
         {
-            
-            
-
             AddMembersTeamRequest addMembersTeamRequest = new AddMembersTeamRequest
             {
                 MemberIds = new[]
                 {
-                    Guid.NewGuid()
+                    _systemUser.Id
                 },
                 TeamId = Guid.Empty
             };
@@ -47,15 +60,12 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestT
         }
 
         [Fact]
-        public void When_a_request_is_called_with_a_null_memberid_parameter_exception_is_thrown()
+        public void When_a_request_is_called_with_a_null_memberId_parameter_exception_is_thrown()
         {
-            
-            
-
             AddMembersTeamRequest addMembersTeamRequest = new AddMembersTeamRequest
             {
                 MemberIds = null,
-                TeamId = Guid.NewGuid()
+                TeamId = _team.Id
             };
 
             // Execute the request.
@@ -63,18 +73,15 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestT
         }
 
         [Fact]
-        public void When_a_request_is_called_with_an_empty_memberid_parameter_exception_is_thrown()
+        public void When_a_request_is_called_with_an_empty_memberId_parameter_exception_is_thrown()
         {
-            
-            
-
             AddMembersTeamRequest addMembersTeamRequest = new AddMembersTeamRequest
             {
                 MemberIds = new[]
                 {
                     Guid.Empty
                 },
-                TeamId = Guid.NewGuid()
+                TeamId = _team.Id
             };
 
             // Execute the request.
@@ -84,18 +91,9 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestT
         [Fact]
         public void When_a_non_existing_member_is_added_to_an_existing_list_exception_is_thrown()
         {
-            
-            
-
-            var team = new Team
-            {
-                Id = Guid.NewGuid(),
-                Name = "Some team"
-            };
-
             _context.Initialize(new List<Entity>
             {
-                team
+                _team
             });
 
             AddMembersTeamRequest addMembersTeamRequest = new AddMembersTeamRequest
@@ -104,7 +102,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestT
                 {
                     Guid.NewGuid()
                 },
-                TeamId = team.ToEntityReference().Id
+                TeamId = _team.Id
             };
 
             Assert.Throws<FaultException<OrganizationServiceFault>>(() => _service.Execute(addMembersTeamRequest));
@@ -113,43 +111,51 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddMembersTeamRequestT
         [Fact]
         public void When_a_member_is_added_to_an_existing_list_member_is_added_successfully()
         {
-            
-            
-
-            var team = new Team
-            {
-                Id = Guid.NewGuid(),
-                Name = "Some team"
-            };
-
-            var systemuser = new SystemUser
-            {
-                Id = Guid.NewGuid()
-            };
-
             _context.Initialize(new List<Entity>
             {
-                team,
-                systemuser
+                _team,
+                _systemUser
             });
 
             AddMembersTeamRequest addMembersTeamRequest = new AddMembersTeamRequest
             {
                 MemberIds = new[]
                 {
-                    systemuser.Id
+                    _systemUser.Id
                 },
-                TeamId = team.ToEntityReference().Id
+                TeamId = _team.Id
             };
 
             _service.Execute(addMembersTeamRequest);
 
-            using (var context = new XrmServiceContext(_service))
-            {
-                var member = context.CreateQuery<TeamMembership>().FirstOrDefault(tm => tm.TeamId == team.Id && tm.SystemUserId == systemuser.Id);
+            var member = _context.CreateQuery<TeamMembership>()
+                .FirstOrDefault(tm => tm.TeamId == _team.Id && tm.SystemUserId == _systemUser.Id);
 
-                Assert.NotNull(member);
-            }
+            Assert.NotNull(member);
+        }
+        
+        [Fact]
+        public void Should_raise_exception_when_a_user_is_added_to_a_default_team()
+        {
+            _team["isdefault"] = true;
+            
+            _context.Initialize(new List<Entity>
+            {
+                _team,
+                _systemUser
+            });
+
+            AddMembersTeamRequest addMembersTeamRequest = new AddMembersTeamRequest
+            {
+                MemberIds = new[]
+                {
+                    _systemUser.Id
+                },
+                TeamId = _team.Id
+            };
+
+            var exception = Assert.Throws<FaultException<OrganizationServiceFault>>(() => _service.Execute(addMembersTeamRequest));
+            Assert.Equal((int) ErrorCodes.CannotAddMembersToDefaultTeam, exception.Detail.ErrorCode);
         }
     }
 }
