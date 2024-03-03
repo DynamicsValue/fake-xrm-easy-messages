@@ -49,7 +49,7 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
             }
         }
 
-        private Entity GetTemplate(OrganizationRequest request, IXrmFakedContext ctx)
+        private void GetTemplate(OrganizationRequest request, IXrmFakedContext ctx)
         {
             var documentTemplateReference = request.Parameters[_selectedTemplateParameterName] as EntityReference;
             if (documentTemplateReference == null)
@@ -64,8 +64,6 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
             {
                 throw new SelectedTemplateNotFoundException();
             }
-
-            return existingTemplate;
         }
 
         private int GetEntityTypeCode(OrganizationRequest request)
