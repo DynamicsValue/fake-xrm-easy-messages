@@ -79,7 +79,7 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
             return entityTypeCode.Value;
         }
 
-        private List<Guid> GetSelectedRecords(OrganizationRequest request, IXrmFakedContext ctx)
+        private List<Guid> GetSelectedRecords(OrganizationRequest request)
         {
             List<Guid> selectedRecords = null;
             
@@ -113,8 +113,8 @@ namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             ValidateRequest(request);
-            var documentTemplate = GetTemplate(request, ctx);
-            var selectedRecords = GetSelectedRecords(request, ctx);
+            GetTemplate(request, ctx);
+            var selectedRecords = GetSelectedRecords(request);
             var entityTypeCode = GetEntityTypeCode(request);
             
             var reflectedType = ctx.FindReflectedType(entityTypeCode);
