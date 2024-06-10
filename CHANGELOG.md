@@ -1,3 +1,18 @@
+## [2.5.0]
+
+### Added
+
+- **Minor Breaking Change**:  Generic Message executors have been moved to *FakeXrmEasy.FakeMessageExecutors.GenericExecutors* namespace for consistency with their own interface name
+- Add ExportPdfDocumentExecutor - https://github.com/DynamicsValue/fake-xrm-easy/issues/125
+- Add RetrieveCurrentOrganizationRequest executor - https://github.com/DynamicsValue/fake-xrm-easy/issues/136 
+
+### Changed
+
+- Introduces validation error when trying to add a user to a default team - https://github.com/DynamicsValue/fake-xrm-easy/issues/108
+- Fixes responsible type in CloseIncidentRequestExecutor - https://github.com/DynamicsValue/fake-xrm-easy/issues/116
+- Increase code coverage for NavigateToNextEntityOrganizationRequest
+- Remove unnecessary checks in NavigateToNextEntityOrganizationRequestExecutor: thanks Temmy
+
 ## [2.4.0]
 
 ## Added
