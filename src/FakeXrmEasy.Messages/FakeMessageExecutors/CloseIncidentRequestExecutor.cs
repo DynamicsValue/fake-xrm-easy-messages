@@ -85,7 +85,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
         /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
-            return typeof(CloseIncidentResponse);
+            return typeof(CloseIncidentRequest);
         }
     }
 }

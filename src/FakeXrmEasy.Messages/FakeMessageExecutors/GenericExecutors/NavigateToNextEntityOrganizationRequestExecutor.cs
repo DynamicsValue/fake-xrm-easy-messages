@@ -2,9 +2,10 @@
 using System.Linq;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.FakeMessageExecutors;
+using FakeXrmEasy.Messages.Exceptions.NavigateToNextEntityOrganizationRequest;
 using Microsoft.Xrm.Sdk;
 
-namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
+namespace FakeXrmEasy.FakeMessageExecutors.GenericExecutors
 {
     /// <summary>
     /// It will navigate to next Entity in Workflow path and add next Stage Id to traversed path.
@@ -70,7 +71,8 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                    where c.Id == currentEntityId
                                    select c);
 
-            if (!currentEntities.Any() && currentEntities.Count() != 1) throw new Exception(string.Format("There are no or more than one {0} with Id {1}", currentEntityLogicalName, currentEntityId));
+            if (!currentEntities.Any()) 
+                throw new CurrentEntityNotFoundException(currentEntityLogicalName,currentEntityId);
 
             // Current Entity
             var currentEntity = currentEntities.First();
@@ -85,8 +87,9 @@ namespace FakeXrmEasy.FakeMessageExecutors.CustomExecutors
                                 where n.Id == nextEntityId
                                 select n);
 
-            if (!nextEntities.Any() && nextEntities.Count() != 1) throw new Exception(string.Format("There are no or more than one {0} with Id {1}", nextEntityLogicalName, nextEntityId));
-
+            if (!nextEntities.Any())
+                throw new NextEntityNotFoundException(nextEntityLogicalName, nextEntityId);
+            
             // Next Entity
             var nextEntity = nextEntities.First();
             nextEntity["stageid"] = newActiveStageId;

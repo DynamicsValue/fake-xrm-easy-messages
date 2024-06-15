@@ -2,7 +2,7 @@ using System.Reflection;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.Enums;
 using FakeXrmEasy.FakeMessageExecutors;
-using FakeXrmEasy.FakeMessageExecutors.CustomExecutors;
+using FakeXrmEasy.FakeMessageExecutors.GenericExecutors;
 using FakeXrmEasy.Middleware;
 using FakeXrmEasy.Middleware.Crud;
 using FakeXrmEasy.Middleware.Messages;
