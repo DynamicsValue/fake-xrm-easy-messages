@@ -53,6 +53,11 @@ namespace FakeXrmEasy.FakeMessageExecutors
 				throw FakeOrganizationServiceFaultFactory.New(ErrorCodes.ObjectDoesNotExist, string.Format("Team with Id {0} wasn't found", req.TeamId.ToString()));
 			}
 
+			if (team.GetAttributeValue<bool?>("isdefault") == true)
+			{
+				throw FakeOrganizationServiceFaultFactory.New(ErrorCodes.CannotAddMembersToDefaultTeam, "You cannot join one or more of the teams selected. The membership of default teams cannot be modified.");
+			}
+			
 			foreach (var memberId in req.MemberIds)
 			{
 				var user = ctx.CreateQuery("systemuser").FirstOrDefault(e => e.Id == memberId);
