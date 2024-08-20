@@ -1,3 +1,4 @@
+#if FAKE_XRM_EASY_9
 using System;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.FakeMessageExecutors;
@@ -42,3 +43,4 @@ namespace FakeXrmEasy.FakeMessageExecutors
         }
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if FAKE_XRM_EASY_9
 using System;
 using FakeItEasy;
 using FakeXrmEasy.Core.Db;
@@ -49,3 +50,4 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.InitializeFileBlocksUp
         }
     }
 }
+#endif
