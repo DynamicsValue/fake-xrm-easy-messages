@@ -8,13 +8,27 @@ using Microsoft.Xrm.Sdk;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
+    /// <summary>
+    /// Implements the InitializeFileBlocksUploadRequest message: https://learn.microsoft.com/en-us/dotnet/api/microsoft.crm.sdk.messages.initializefileblocksuploadrequest?view=dataverse-sdk-latest
+    /// </summary>
     public class InitializeFileBlocksUploadRequestExecutor: IFakeMessageExecutor
     {
+        /// <summary>
+        /// Returns true when asked if it can execute an InitializeFileBlocksUploadRequest message
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public bool CanExecute(OrganizationRequest request)
         {
             return request is InitializeFileBlocksUploadRequest;
         }
 
+        /// <summary>
+        /// Executes a fake implementation of the request using an In-Memory File Storage mechanism
+        /// </summary>
+        /// <param name="request">The request to execute</param>
+        /// <param name="ctx">The context to store the files against</param>
+        /// <returns>InitializeFileBlocksUploadResponse</returns>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             InitializeFileBlocksUploadRequest req = (InitializeFileBlocksUploadRequest)request;
@@ -37,9 +51,13 @@ namespace FakeXrmEasy.FakeMessageExecutors
             };
         }
 
+        /// <summary>
+        /// Returns the type of InitializeFileBlocksUploadResponse
+        /// </summary>
+        /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
-            return typeof(InitializeFileBlocksUploadRequest);
+            return typeof(InitializeFileBlocksUploadResponse);
         }
     }
 }
