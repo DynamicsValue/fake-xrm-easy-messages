@@ -14,11 +14,22 @@ namespace FakeXrmEasy.FakeMessageExecutors
     /// </summary>
     public class CommitFileBlocksUploadRequestExecutor: IFakeMessageExecutor
     {
+        /// <summary>
+        /// Returns true when the request is a CommitFileBlocksUploadRequest
+        /// </summary>
+        /// <param name="request">The request to check if it can be executed by this executor</param>
+        /// <returns></returns>
         public bool CanExecute(OrganizationRequest request)
         {
             return request is CommitFileBlocksUploadRequest;
         }
 
+        /// <summary>
+        /// Executes a CommitFileBlocksUploadRequest
+        /// </summary>
+        /// <param name="request">The request to execute</param>
+        /// <param name="ctx">The IXrmFakedContext that this request will be executed against</param>
+        /// <returns>CommitFileBlocksUploadResponse</returns>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             var req = request as CommitFileBlocksUploadRequest;
@@ -45,6 +56,10 @@ namespace FakeXrmEasy.FakeMessageExecutors
             };
         }
 
+        /// <summary>
+        /// The type of CommitFileBlocksUploadRequest
+        /// </summary>
+        /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
             return typeof(CommitFileBlocksUploadRequest);
