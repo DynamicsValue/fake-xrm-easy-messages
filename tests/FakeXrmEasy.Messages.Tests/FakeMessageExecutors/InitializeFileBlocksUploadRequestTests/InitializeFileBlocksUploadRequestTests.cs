@@ -16,7 +16,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.InitializeFileBlocksUp
         private readonly Entity _entity;
         private readonly InitializeFileBlocksUploadRequest _request;
         
-        public InitializeFileBlocksUploadRequestTests()
+        public InitializeFileBlocksUploadRequestTests(): base()
         {
             _fileDb = (_context as XrmFakedContext).FileDb;
             

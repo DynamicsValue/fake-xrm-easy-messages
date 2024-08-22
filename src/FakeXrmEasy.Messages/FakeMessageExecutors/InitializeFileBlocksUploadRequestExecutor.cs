@@ -57,7 +57,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
         /// <returns></returns>
         public Type GetResponsibleRequestType()
         {
-            return typeof(InitializeFileBlocksUploadResponse);
+            return typeof(InitializeFileBlocksUploadRequest);
         }
     }
 }

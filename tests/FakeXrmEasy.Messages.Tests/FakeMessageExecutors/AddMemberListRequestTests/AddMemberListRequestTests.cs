@@ -41,8 +41,6 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
         [Fact]
         public void When_a_request_is_called_with_an_empty_listid_parameter_exception_is_thrown()
         {
-            
-
             AddListMembersListRequest addListMembersListRequest = new AddListMembersListRequest
             {
                 MemberIds = new[]
