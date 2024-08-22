@@ -1,3 +1,4 @@
+#if FAKE_XRM_EASY_9
 using System;
 using FakeXrmEasy.Core.FileStorage.Db;
 using Microsoft.Crm.Sdk.Messages;
@@ -69,3 +70,4 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CommitFileBlocksUpload
         }
     }
 }
+#endif
