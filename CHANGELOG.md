@@ -1,3 +1,9 @@
+## [3.6.0]
+
+### Added
+
+- Added new messages for File and Image Upload/Download/Delete - https://github.com/DynamicsValue/fake-xrm-easy/issues/157
+
 ## [3.5.0]
 
 ### Added
