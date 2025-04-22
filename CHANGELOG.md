@@ -1,3 +1,9 @@
+## [2.6.2]
+
+### Changed 
+
+- Populates extra attributes when an email is sent with SendEmailRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/186
+
 ## [2.6.1]
 
 ### Changed
