@@ -31,6 +31,7 @@ namespace DataverseEntities
 			return null;
 		}
 		
+#if FAKE_XRM_EASY_9
 		/// <summary>
 		/// Returns a collection of integer version's of an Multi-Select OptionSetValue for a given attribute on the passed entity
 		/// </summary>
@@ -59,6 +60,8 @@ namespace DataverseEntities
 			collection.AddRange(System.Linq.Enumerable.Select(values, v => new Microsoft.Xrm.Sdk.OptionSetValue((int)(object)v)));
 			return collection;
 		}
+#endif
 	}
 }
 #pragma warning restore CS1591
+

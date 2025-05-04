@@ -39,7 +39,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
         [Fact]
         public void Test_Conversion_EntityReference_ToXml()
         {
-            _context.EnableProxyTypes(typeof(Crm.Contact).Assembly);
+            _context.EnableProxyTypes(typeof(Contact).Assembly);
             var executor = new ExecuteFetchRequestExecutor();
             var contactGuid = Guid.NewGuid();
             var element = executor.AttributeValueToFetchResult(new KeyValuePair<string, object>("new_contact", new EntityReference("contact", contactGuid) { Name = "John Doe" }), null, _context);
@@ -50,7 +50,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
         [Fact]
         public void Test_Conversion_OptionSetValue_ToXml()
         {
-            _context.EnableProxyTypes(typeof(Crm.Contact).Assembly);
+            _context.EnableProxyTypes(typeof(Contact).Assembly);
             var executor = new ExecuteFetchRequestExecutor();
             var formattedValues = new FormattedValueCollection();
             formattedValues.Add("new_contact", "Test");
