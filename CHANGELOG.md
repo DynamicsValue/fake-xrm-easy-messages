@@ -1,7 +1,9 @@
-## [2.6.2]
+## [2.7.0]
 
 ### Changed 
 
+- Adds implementation for InstantiateTemplateRequest using XSLT transforms - https://github.com/DynamicsValue/fake-xrm-easy/issues/178
+- Replaced old generated code with generated code by pac modelbuilder
 - Populates extra attributes when an email is sent with SendEmailRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/186
 
 ## [2.6.1]
