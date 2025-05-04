@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Xunit;
 using System.Linq;
 using Microsoft.Crm.Sdk.Messages;
-using Crm;
+using DataverseEntities;
 using System.ServiceModel;
 using FakeXrmEasy.Abstractions;
 

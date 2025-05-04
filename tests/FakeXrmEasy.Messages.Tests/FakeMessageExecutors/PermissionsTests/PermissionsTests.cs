@@ -1,4 +1,4 @@
-﻿using Crm;
+﻿using DataverseEntities;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;

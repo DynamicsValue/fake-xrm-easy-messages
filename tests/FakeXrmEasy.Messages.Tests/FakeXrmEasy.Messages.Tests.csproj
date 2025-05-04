@@ -150,5 +150,6 @@
   <ItemGroup Condition="'$(PackTests)' == 'true' And '$(Configuration)'=='FAKE_XRM_EASY_9'">
     <PackageReference Include="FakeXrmEasy.Messages.v9" Version="[2.6.2-*,3.0)" />
   </ItemGroup>
+  <Import Project="..\DataverseEntities.Shared\DataverseEntities.Shared.projitems" Label="Shared" />
 
 </Project>

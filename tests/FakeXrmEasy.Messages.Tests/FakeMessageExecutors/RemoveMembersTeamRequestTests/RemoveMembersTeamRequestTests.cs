@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-
 using System.Linq;
 using Microsoft.Crm.Sdk.Messages;
-using Crm;
 using System.ServiceModel;
+using DataverseEntities;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RemoveMembersTeamRequestTests
 {

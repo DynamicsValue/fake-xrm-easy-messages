@@ -4,6 +4,7 @@ using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Linq;
 using System.Reflection;
+using DataverseEntities;
 using FakeXrmEasy.Abstractions;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.SendEmailRequestTests
         {
             _context.EnableProxyTypes(Assembly.GetExecutingAssembly());
 
-            var email = new Crm.Email()
+            var email = new Email()
             {
                 Id = Guid.NewGuid(),
                 Subject = "FXE Test"
@@ -33,9 +34,9 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.SendEmailRequestTests
             var expectedSubject = $"{email.Subject} {request.TrackingToken}";
             Assert.Equal(expectedSubject, response.Subject);
 
-            var emailAfter = _context.CreateQuery<Crm.Email>().FirstOrDefault();
-            Assert.Equal(Crm.EmailState.Completed, emailAfter.StateCode);
-            Assert.Equal(3, emailAfter.StatusCode.Value);
+            var emailAfter = _context.CreateQuery<Email>().FirstOrDefault();
+            Assert.Equal(email_statecode.Completed, emailAfter.StateCode);
+            Assert.Equal(3, (int) emailAfter.StatusCode.Value);
             Assert.Equal(0, emailAfter.DeliveryAttempts);
             Assert.Equal(DateTime.UtcNow.Date, emailAfter.ActualEnd?.Date);
             Assert.Equal(expectedSubject, emailAfter.Subject);
@@ -46,7 +47,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.SendEmailRequestTests
         {
             _context.EnableProxyTypes(Assembly.GetExecutingAssembly());
 
-            var email = new Crm.Email()
+            var email = new Email()
             {
                 Id = Guid.NewGuid(),
                 Subject = "FXE Test"
@@ -62,9 +63,9 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.SendEmailRequestTests
             var expectedSubject = $"{email.Subject} CRM:0235001";
             Assert.Equal(expectedSubject, response.Subject);
 
-            var emailAfter = _context.CreateQuery<Crm.Email>().FirstOrDefault();
-            Assert.Equal(Crm.EmailState.Completed, emailAfter.StateCode);
-            Assert.Equal(3, emailAfter.StatusCode.Value);
+            var emailAfter = _context.CreateQuery<Email>().FirstOrDefault();
+            Assert.Equal(email_statecode.Completed, emailAfter.StateCode);
+            Assert.Equal(3, (int) emailAfter.StatusCode.Value);
             Assert.Equal(0, emailAfter.DeliveryAttempts);
             Assert.Equal(DateTime.UtcNow.Date, emailAfter.ActualEnd?.Date);
             Assert.Equal(expectedSubject, emailAfter.Subject);
