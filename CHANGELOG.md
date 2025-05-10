@@ -2,6 +2,7 @@
 
 ### Changed 
 
+- Adds implementation for SendTemplateRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/188
 - Adds implementation for SendEmailFromTemplateRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/186
 - Adds implementation for InstantiateTemplateRequest using XSLT transforms - https://github.com/DynamicsValue/fake-xrm-easy/issues/178
 - Replaced old generated code with generated code by pac modelbuilder
