@@ -6,6 +6,9 @@ using Microsoft.Xrm.Sdk;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
+    /// <summary>
+    /// Provides a fake implementation for SendTemplateRequest
+    /// </summary>
     public class SendTemplateRequestExecutor: IFakeMessageExecutor
     {
         private const string MISSING_ARGUMENT = "Required field '{0}' is missing for RequestName='SendTemplate'";

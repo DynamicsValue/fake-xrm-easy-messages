@@ -36,6 +36,13 @@ namespace FakeXrmEasy.FakeMessageExecutors
             return request is InstantiateTemplateRequest;
         }
 
+        /// <summary>
+        /// Implements the execution of the current request with this executor against a particular XrmFakedContext
+        /// </summary>
+        /// <param name="request">The current request that is being executed</param>
+        /// <param name="ctx">The instance of an XrmFakedContext that the request will be executed against</param>
+        /// <returns>InstantiateTemplateResponse with the instantiated email</returns>
+        /// <exception cref="Exception"></exception>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
             var req = request as InstantiateTemplateRequest;

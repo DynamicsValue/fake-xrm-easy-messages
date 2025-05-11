@@ -6,6 +6,9 @@ using Microsoft.Xrm.Sdk;
 
 namespace FakeXrmEasy.FakeMessageExecutors
 {
+    /// <summary>
+    /// Provides a fake implementation for SendEmailFromTemplateRequest
+    /// </summary>
     public class SendEmailFromTemplateRequestExecutor: IFakeMessageExecutor
     {
         /// <summary>
@@ -23,7 +26,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
         /// </summary>
         /// <param name="request">The current request that is being executed</param>
         /// <param name="ctx">The instance of an XrmFakedContext that the request will be executed against</param>
-        /// <returns>SendEmailResponse</returns>
+        /// <returns>SendEmailFromTemplateResponse</returns>
         /// <exception cref="Exception"></exception>
         public OrganizationResponse Execute(OrganizationRequest request, IXrmFakedContext ctx)
         {
