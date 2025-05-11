@@ -1,9 +1,9 @@
-﻿using Crm;
-using Microsoft.Crm.Sdk.Messages;
+﻿using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Linq;
 using System.Reflection;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.LoseOpportunityRequestTests
@@ -27,7 +27,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.LoseOpportunityRequest
                 {
                     OpportunityId = new EntityReference(Opportunity.EntityLogicalName, opportunity.Id)
                 },
-                Status = new OptionSetValue((int)OpportunityState.Lost)
+                Status = new OptionSetValue((int)opportunity_statecode.Lost)
             };
 
             _service.Execute(request);
@@ -36,7 +36,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.LoseOpportunityRequest
                        where op.Id == opportunity.Id
                        select op).FirstOrDefault();
 
-            Assert.Equal(opp.StatusCode.Value, (int)OpportunityState.Lost);
+            Assert.Equal((int)opp.StatusCode.Value, (int)opportunity_statecode.Lost);
         }
     }
 }

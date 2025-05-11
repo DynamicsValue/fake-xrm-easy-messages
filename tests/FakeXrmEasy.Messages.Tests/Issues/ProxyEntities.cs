@@ -1,4 +1,5 @@
-﻿namespace Crm
+﻿
+namespace DataverseEntities
 {
     [System.Runtime.Serialization.DataContractAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("CrmSvcUtil", "8.1.0.7711")]

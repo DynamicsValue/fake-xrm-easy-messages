@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ServiceModel;
-using Crm;
+using DataverseEntities;
 using FakeXrmEasy.FakeMessageExecutors.GenericExecutors;
 using FakeXrmEasy.Messages.Exceptions.ExportPdfDocumentRequest;
 using Microsoft.Xrm.Sdk;

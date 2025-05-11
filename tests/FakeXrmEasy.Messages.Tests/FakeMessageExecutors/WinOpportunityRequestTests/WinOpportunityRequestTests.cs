@@ -1,4 +1,4 @@
-﻿using Crm;
+﻿using DataverseEntities;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
@@ -27,7 +27,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WinOpportunityRequestT
                 {
                     OpportunityId = new EntityReference(Opportunity.EntityLogicalName, opportunity.Id)
                 },
-                Status = new OptionSetValue((int)OpportunityState.Won)
+                Status = new OptionSetValue((int)opportunity_statecode.Won)
             };
 
             _service.Execute(request);
@@ -36,7 +36,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.WinOpportunityRequestT
                        where op.Id == opportunity.Id
                        select op).FirstOrDefault();
 
-            Assert.Equal(opp.StatusCode.Value, (int)OpportunityState.Won);
+            Assert.Equal((int)opportunity_statecode.Won, (int)opp.StatusCode.Value);
         }
     }
 }

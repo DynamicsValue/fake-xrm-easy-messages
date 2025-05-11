@@ -4,7 +4,7 @@ using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Linq;
-using Crm;
+using DataverseEntities;
 using Xunit;
 using FakeXrmEasy.Abstractions.Permissions;
 

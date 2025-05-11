@@ -7,6 +7,7 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.ServiceModel;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PickFromQueueRequestTests
@@ -26,25 +27,25 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PickFromQueueRequestTe
         {
             var email = new Entity
             {
-                LogicalName = Crm.Email.EntityLogicalName,
+                LogicalName = Email.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queue = new Entity
             {
-                LogicalName = Crm.Queue.EntityLogicalName,
+                LogicalName = Queue.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var user = new Entity
             {
-                LogicalName = Crm.SystemUser.EntityLogicalName,
+                LogicalName = SystemUser.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queueItem = new Entity
             {
-                LogicalName = Crm.QueueItem.EntityLogicalName,
+                LogicalName = QueueItem.EntityLogicalName,
                 Id = Guid.NewGuid(),
                 Attributes =
                 {
@@ -70,7 +71,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PickFromQueueRequestTe
             executor.Execute(req, _context);
             var after = DateTime.Now.Ticks;
 
-            var queueItemUpdated = _service.Retrieve(Crm.QueueItem.EntityLogicalName, queueItem.Id, new ColumnSet(true));
+            var queueItemUpdated = _service.Retrieve(QueueItem.EntityLogicalName, queueItem.Id, new ColumnSet(true));
 
             Assert.Equal(user.ToEntityReference(), queueItemUpdated.GetAttributeValue<EntityReference>("workerid"));
             Assert.True(before <= queueItemUpdated.GetAttributeValue<DateTime>("workeridmodifiedon").Ticks);
@@ -80,30 +81,27 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PickFromQueueRequestTe
         [Fact]
         public void When_a_request_is_called_with_removal_queueitem_is_deleted()
         {
-            
-            
-
             var email = new Entity
             {
-                LogicalName = Crm.Email.EntityLogicalName,
+                LogicalName = Email.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queue = new Entity
             {
-                LogicalName = Crm.Queue.EntityLogicalName,
+                LogicalName = Queue.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var user = new Entity
             {
-                LogicalName = Crm.SystemUser.EntityLogicalName,
+                LogicalName = SystemUser.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queueItem = new Entity
             {
-                LogicalName = Crm.QueueItem.EntityLogicalName,
+                LogicalName = QueueItem.EntityLogicalName,
                 Id = Guid.NewGuid(),
                 Attributes =
                 {
@@ -128,24 +126,21 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PickFromQueueRequestTe
 
             executor.Execute(req, _context);
 
-            Assert.Empty(_context.CreateQuery(Crm.QueueItem.EntityLogicalName));
+            Assert.Empty(_context.CreateQuery(QueueItem.EntityLogicalName));
         }
 
         [Fact]
         public void When_a_request_is_for_non_existing_woker_an_exception_is_thrown()
         {
-            
-            
-
             var queue = new Entity
             {
-                LogicalName = Crm.Queue.EntityLogicalName,
+                LogicalName = Queue.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queueItem = new Entity
             {
-                LogicalName = Crm.QueueItem.EntityLogicalName,
+                LogicalName = QueueItem.EntityLogicalName,
                 Id = Guid.NewGuid(),
                 Attributes =
                 {
@@ -178,7 +173,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.PickFromQueueRequestTe
 
             var user = new Entity
             {
-                LogicalName = Crm.SystemUser.EntityLogicalName,
+                LogicalName = SystemUser.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 

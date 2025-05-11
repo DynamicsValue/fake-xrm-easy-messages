@@ -7,6 +7,7 @@ using Microsoft.Xrm.Sdk.Messages;
 using System;
 using System.Linq;
 using System.ServiceModel;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RemoveFromQueueRequestTests
@@ -26,7 +27,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RemoveFromQueueRequest
         {
             var queueItem = new Entity
             {
-                LogicalName = Crm.QueueItem.EntityLogicalName,
+                LogicalName = QueueItem.EntityLogicalName,
                 Id = Guid.NewGuid()
             };
 
@@ -44,7 +45,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.RemoveFromQueueRequest
 
             executor.Execute(req, _context);
 
-            var retrievedQueueItemQuery = _context.CreateQuery(Crm.QueueItem.EntityLogicalName);
+            var retrievedQueueItemQuery = _context.CreateQuery(QueueItem.EntityLogicalName);
 
             Assert.True(!retrievedQueueItemQuery.Any());
         }

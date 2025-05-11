@@ -1,10 +1,10 @@
-﻿using Crm;
-using Microsoft.Crm.Sdk.Messages;
+﻿using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.QualifyLeadRequestTests
@@ -28,7 +28,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.QualifyLeadRequestTest
                 CreateContact = false,
                 CreateOpportunity = false,
                 LeadId = lead.ToEntityReference(),
-                Status = new OptionSetValue((int)LeadState.Qualified)
+                Status = new OptionSetValue((int)lead_statecode.Qualified)
             };
 
             _service.Execute(request);
@@ -55,7 +55,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.QualifyLeadRequestTest
                 CreateContact = true,
                 CreateOpportunity = false,
                 LeadId = lead.ToEntityReference(),
-                Status = new OptionSetValue((int)LeadState.Qualified)
+                Status = new OptionSetValue((int)lead_statecode.Qualified)
             };
 
             _service.Execute(request);
@@ -82,7 +82,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.QualifyLeadRequestTest
                 CreateContact = false,
                 CreateOpportunity = true,
                 LeadId = lead.ToEntityReference(),
-                Status = new OptionSetValue((int)LeadState.Qualified)
+                Status = new OptionSetValue((int)lead_statecode.Qualified)
             };
 
             _service.Execute(request);
@@ -114,7 +114,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.QualifyLeadRequestTest
                 CreateContact = false,
                 CreateOpportunity = true,
                 LeadId = lead.ToEntityReference(),
-                Status = new OptionSetValue((int)LeadState.Qualified),
+                Status = new OptionSetValue((int)lead_statecode.Qualified),
                 OpportunityCustomerId = account.ToEntityReference()
             };
 
@@ -142,7 +142,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.QualifyLeadRequestTest
                 CreateContact = false,
                 CreateOpportunity = false,
                 LeadId = lead.ToEntityReference(),
-                Status = new OptionSetValue((int)LeadState.Qualified)
+                Status = new OptionSetValue((int)lead_statecode.Qualified)
             };
 
             _service.Execute(request);
@@ -151,7 +151,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.QualifyLeadRequestTest
                                where l.Id == lead.Id
                                select l).Single();
 
-            Assert.Equal((int)LeadState.Qualified, qualifiedLead.StatusCode.Value);
+            Assert.Equal((int)lead_statecode.Qualified, (int) qualifiedLead.StatusCode.Value);
         }
     }
 }

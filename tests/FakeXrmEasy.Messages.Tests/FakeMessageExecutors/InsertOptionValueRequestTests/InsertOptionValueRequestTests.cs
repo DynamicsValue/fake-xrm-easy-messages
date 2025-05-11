@@ -1,5 +1,5 @@
 ﻿using System;
-using Crm;
+using DataverseEntities;
 using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
 using Xunit;
