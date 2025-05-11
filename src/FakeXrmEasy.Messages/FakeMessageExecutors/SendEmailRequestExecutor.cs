@@ -1,6 +1,7 @@
 ﻿using System;
 using FakeXrmEasy.Abstractions;
 using FakeXrmEasy.Abstractions.FakeMessageExecutors;
+using FakeXrmEasy.Core.EmailSettings;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 
@@ -34,10 +35,41 @@ namespace FakeXrmEasy.FakeMessageExecutors
 #else
             var entity = new Entity("email", req.EmailId);
 #endif
+
+            var emailExists = ctx.ContainsEntity("email", req.EmailId);
+            if (!emailExists)
+            {
+                throw FakeOrganizationServiceFaultFactory.New(ErrorCodes.ObjectDoesNotExist,
+                    $"Entity 'email' With Id {req.EmailId} Does Not Exist");
+            }
+            
+            var existingEmail = ctx.GetEntityById("email", req.EmailId);
+            
             entity["statecode"] = new OptionSetValue(1); //Completed
             entity["statuscode"] = new OptionSetValue(3); //Sent
+
+            string trackingToken = req.TrackingToken;
+            if (string.IsNullOrWhiteSpace(trackingToken))
+            {
+                var emailTrackingSettings = ctx.GetProperty<IEmailTrackingSettings>();
+                trackingToken = emailTrackingSettings.GenerateNewTrackingTokenValue();
+            }
+            entity["trackingtoken"] = trackingToken;
+            entity["actualend"] = DateTime.UtcNow;
+            entity["deliveryattempts"] = 0;
+
+            string newSubject = $"{existingEmail["subject"]} {trackingToken}";
+            entity["subject"] = newSubject;
+            
             ctx.GetOrganizationService().Update(entity);
-            return new SendEmailResponse();
+
+            return new SendEmailResponse()
+            {
+                Results =  new ParameterCollection()
+                    {
+                        { "Subject", newSubject }
+                    }
+            };
         }
 
         /// <summary>

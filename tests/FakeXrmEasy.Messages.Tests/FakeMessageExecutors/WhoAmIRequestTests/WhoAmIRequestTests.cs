@@ -2,8 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
-using Crm;
-using FakeItEasy;
+using DataverseEntities;
 using FakeXrmEasy.FakeMessageExecutors.Exceptions.WhoIAmRequest;
 using Xunit;
 

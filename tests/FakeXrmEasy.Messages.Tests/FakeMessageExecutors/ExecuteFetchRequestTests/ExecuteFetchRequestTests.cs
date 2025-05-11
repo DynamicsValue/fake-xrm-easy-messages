@@ -1,11 +1,11 @@
-﻿using Crm;
-using FakeXrmEasy.FakeMessageExecutors;
+﻿using FakeXrmEasy.FakeMessageExecutors;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTests
@@ -39,7 +39,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
         [Fact]
         public void Test_Conversion_EntityReference_ToXml()
         {
-            _context.EnableProxyTypes(typeof(Crm.Contact).Assembly);
+            _context.EnableProxyTypes(typeof(Contact).Assembly);
             var executor = new ExecuteFetchRequestExecutor();
             var contactGuid = Guid.NewGuid();
             var element = executor.AttributeValueToFetchResult(new KeyValuePair<string, object>("new_contact", new EntityReference("contact", contactGuid) { Name = "John Doe" }), null, _context);
@@ -50,7 +50,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
         [Fact]
         public void Test_Conversion_OptionSetValue_ToXml()
         {
-            _context.EnableProxyTypes(typeof(Crm.Contact).Assembly);
+            _context.EnableProxyTypes(typeof(Contact).Assembly);
             var executor = new ExecuteFetchRequestExecutor();
             var formattedValues = new FormattedValueCollection();
             formattedValues.Add("new_contact", "Test");
@@ -91,7 +91,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
                     BirthDate = new DateTime(1981,10,23),
                     ["createdby"] = new EntityReference("contact", Guid.NewGuid()) {Name = "John" },
                     DoNotFax = true,
-                    GenderCode = new OptionSetValue(2)
+                    GenderCode = contact_gendercode.Male
                 }, //should be returned
                 new Contact() {Id = Guid.NewGuid(), FirstName = "Leo Messi", Telephone1 = "234" }, //should be returned
                 new Contact() {Id = Guid.NewGuid(), FirstName = "Leo", Telephone1 = "789" }, //shouldnt
@@ -141,10 +141,6 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.ExecuteFetchRequestTes
         [Fact]
         public void When_executing_fetchxml_with_count_attribute_only_that_number_of_results_is_returned()
         {
-            //This will test a query expression is generated and executed
-
-            
-
             //Arrange
             var contactList = new List<Entity>();
             for (var i = 0; i < 20; i++)
