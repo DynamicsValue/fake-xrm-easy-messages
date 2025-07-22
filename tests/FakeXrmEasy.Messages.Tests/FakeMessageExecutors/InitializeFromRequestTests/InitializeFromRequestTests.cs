@@ -1,9 +1,9 @@
-using Crm;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.InitializeFromRequestTests

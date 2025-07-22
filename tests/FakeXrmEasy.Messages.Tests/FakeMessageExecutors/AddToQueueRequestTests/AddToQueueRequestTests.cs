@@ -1,10 +1,10 @@
-﻿using Crm;
-using FakeXrmEasy.FakeMessageExecutors;
+﻿using FakeXrmEasy.FakeMessageExecutors;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using System;
 using System.Linq;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddToQueueRequestTests
@@ -32,13 +32,13 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddToQueueRequestTests
 
             var email = new Entity
             {
-                LogicalName = Crm.Email.EntityLogicalName,
+                LogicalName = Email.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queue = new Entity
             {
-                LogicalName = Crm.Queue.EntityLogicalName,
+                LogicalName = Queue.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
@@ -57,7 +57,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddToQueueRequestTests
 
             executor.Execute(req, _context);
 
-            var queueItem = _context.CreateQuery(Crm.QueueItem.EntityLogicalName).Single();
+            var queueItem = _context.CreateQuery(QueueItem.EntityLogicalName).Single();
 
             Assert.Equal(queue.ToEntityReference(), queueItem.GetAttributeValue<EntityReference>("queueid"));
             Assert.Equal(email.ToEntityReference(), queueItem.GetAttributeValue<EntityReference>("objectid"));
@@ -72,13 +72,13 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddToQueueRequestTests
 
             var email = new Entity
             {
-                LogicalName = Crm.Email.EntityLogicalName,
+                LogicalName = Email.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queue = new Entity
             {
-                LogicalName = Crm.Queue.EntityLogicalName,
+                LogicalName = Queue.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
@@ -101,7 +101,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddToQueueRequestTests
 
             executor.Execute(req, _context);
 
-            var queueItem = _context.CreateQuery(Crm.QueueItem.EntityLogicalName).Single();
+            var queueItem = _context.CreateQuery(QueueItem.EntityLogicalName).Single();
 
             Assert.Equal(queue.ToEntityReference(), queueItem.GetAttributeValue<EntityReference>("queueid"));
             Assert.Equal(email.ToEntityReference(), queueItem.GetAttributeValue<EntityReference>("objectid"));
@@ -117,19 +117,19 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddToQueueRequestTests
 
             var email = new Entity
             {
-                LogicalName = Crm.Email.EntityLogicalName,
+                LogicalName = Email.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queue = new Entity
             {
-                LogicalName = Crm.Queue.EntityLogicalName,
+                LogicalName = Queue.EntityLogicalName,
                 Id = Guid.NewGuid(),
             };
 
             var queueItem = new QueueItem
             {
-                LogicalName = Crm.Queue.EntityLogicalName,
+                LogicalName = Queue.EntityLogicalName,
                 Id = Guid.NewGuid(),
                 ObjectId = email.ToEntityReference()
             };
@@ -153,9 +153,9 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddToQueueRequestTests
 
             executor.Execute(req, _context);
 
-            Assert.Equal(1, _context.CreateQuery(Crm.QueueItem.EntityLogicalName).Count());
+            Assert.Equal(1, _context.CreateQuery(QueueItem.EntityLogicalName).Count());
 
-            queueItem = _context.CreateQuery(Crm.QueueItem.EntityLogicalName).Single().ToEntity<QueueItem>();
+            queueItem = _context.CreateQuery(QueueItem.EntityLogicalName).Single().ToEntity<QueueItem>();
 
             Assert.Equal(queue.ToEntityReference(), queueItem.GetAttributeValue<EntityReference>("queueid"));
             Assert.Equal(email.ToEntityReference(), queueItem.GetAttributeValue<EntityReference>("objectid"));
