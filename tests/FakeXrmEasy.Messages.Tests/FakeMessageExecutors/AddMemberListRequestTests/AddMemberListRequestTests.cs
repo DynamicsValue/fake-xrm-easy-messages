@@ -8,7 +8,7 @@ using Xunit;
 
 using System.Linq;
 using Microsoft.Crm.Sdk.Messages;
-using Crm;
+using DataverseEntities;
 using System.ServiceModel;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequestTests
@@ -107,7 +107,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             {
                 Id = Guid.NewGuid(),
                 ListName = "Some list",
-                CreatedFromCode = new OptionSetValue((int)ListCreatedFromCode.Account)
+                CreatedFromCode = list_createdfromcode.Account
             };
 
             _context.Initialize(new List<Entity>
@@ -136,7 +136,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             {
                 Id = Guid.NewGuid(),
                 ListName = "Some list",
-                CreatedFromCode = new OptionSetValue((int)ListCreatedFromCode.Account)
+                CreatedFromCode = list_createdfromcode.Account
             };
 
             var account = new Account
@@ -178,7 +178,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             {
                 Id = Guid.NewGuid(),
                 ListName = "Some list",
-                CreatedFromCode = new OptionSetValue((int)ListCreatedFromCode.Account)
+                CreatedFromCode = list_createdfromcode.Account
             };
 
             var account = new Account()
@@ -225,7 +225,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             {
                 Id = Guid.NewGuid(),
                 ListName = "Some list",
-                CreatedFromCode = new OptionSetValue((int)ListCreatedFromCode.Contact)
+                CreatedFromCode = list_createdfromcode.Contact
             };
 
             var contact = new Contact()
@@ -252,7 +252,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             using (var context = new XrmServiceContext(_service))
             {
                 var member = (from lm in context.CreateQuery<ListMember>()
-                              join l in context.CreateQuery<Crm.List>() on lm.ListId.Id equals l.ListId.Value
+                              join l in context.CreateQuery<List>() on lm.ListId.Id equals l.ListId.Value
                               join c in context.CreateQuery<Contact>() on lm.EntityId.Id equals c.ContactId.Value
                               where lm.EntityId.Id == contact.Id
                               where lm.ListId.Id == list.Id
@@ -270,7 +270,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             {
                 Id = Guid.NewGuid(),
                 ListName = "Some list",
-                CreatedFromCode = new OptionSetValue((int)ListCreatedFromCode.Lead)
+                CreatedFromCode = list_createdfromcode.Lead
             };
 
             var lead = new Lead()
@@ -297,7 +297,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AddListMembersListRequ
             using (var context = new XrmServiceContext(_service))
             {
                 var member = (from lm in context.CreateQuery<ListMember>()
-                              join l in context.CreateQuery<Crm.List>() on lm.ListId.Id equals l.ListId.Value
+                              join l in context.CreateQuery<List>() on lm.ListId.Id equals l.ListId.Value
                               join le in context.CreateQuery<Lead>() on lm.EntityId.Id equals le.LeadId.Value
                               where lm.EntityId.Id == lead.Id
                               where lm.ListId.Id == list.Id

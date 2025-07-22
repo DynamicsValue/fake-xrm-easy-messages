@@ -1,4 +1,4 @@
-﻿using Crm;
+﻿using DataverseEntities;
 using FakeXrmEasy.Abstractions.Metadata;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;

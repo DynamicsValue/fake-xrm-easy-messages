@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Reflection;
 using System.ServiceModel;
-using Crm;
 using FakeXrmEasy.FakeMessageExecutors;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using System.Linq;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.BulkDeleteRequestTests
@@ -175,7 +175,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.BulkDeleteRequestTests
             Assert.Equal(1, allContacts.Count());
             Assert.Equal(keepName, allContacts.First().FirstName);
             Assert.Equal(1, asyncOperation.Count());
-            Assert.Equal(AsyncOperationState.Completed, asyncOperation.First().StateCode);
+            Assert.Equal(asyncoperation_statecode.Completed, asyncOperation.First().StateCode);
         }
     }
 }
