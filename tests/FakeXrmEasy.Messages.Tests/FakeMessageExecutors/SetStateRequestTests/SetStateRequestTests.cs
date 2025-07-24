@@ -1,4 +1,4 @@
-﻿using Crm;
+﻿using DataverseEntities;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System;
@@ -33,7 +33,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.SetStateRequestTests
                            select con).FirstOrDefault();
 
             Assert.Equal(69, (int)contact.StateCode.Value);
-            Assert.Equal(6969, contact.StatusCode.Value);
+            Assert.Equal(6969, (int) contact.StatusCode.Value);
         }
 
         [Fact]

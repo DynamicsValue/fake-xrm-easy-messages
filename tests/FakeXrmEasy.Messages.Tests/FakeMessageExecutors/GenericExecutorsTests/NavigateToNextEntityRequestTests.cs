@@ -1,4 +1,4 @@
-﻿using Crm;
+﻿using DataverseEntities;
 using FakeXrmEasy.FakeMessageExecutors.GenericExecutors;
 using Microsoft.Xrm.Sdk;
 using System;

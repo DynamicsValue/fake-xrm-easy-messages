@@ -5,6 +5,7 @@ using Microsoft.Xrm.Sdk.Messages;
 using System;
 using System.Linq;
 using System.ServiceModel;
+using DataverseEntities;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTests
@@ -23,7 +24,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
         {
             var incident = new Entity
             {
-                LogicalName = Crm.Incident.EntityLogicalName,
+                LogicalName = Incident.EntityLogicalName,
                 Id = Guid.NewGuid()
             };
 
@@ -36,9 +37,9 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
 
             Entity incidentResolution = new Entity
             {
-                LogicalName = Crm.IncidentResolution.EntityLogicalName,
+                LogicalName = IncidentResolution.EntityLogicalName,
                 ["subject"] = "subject",
-                ["incidentid"] = new EntityReference(Crm.Incident.EntityLogicalName, incident.Id)
+                ["incidentid"] = new EntityReference(Incident.EntityLogicalName, incident.Id)
             };
 
             CloseIncidentRequest closeIncidentRequest = new CloseIncidentRequest
@@ -49,24 +50,24 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
 
             executor.Execute(closeIncidentRequest, _context);
 
-            var retrievedIncident = _context.CreateQuery(Crm.Incident.EntityLogicalName).Single();
+            var retrievedIncident = _context.CreateQuery(Incident.EntityLogicalName).Single();
 
             Assert.Equal(StatusProblemSolved, retrievedIncident.GetAttributeValue<OptionSetValue>("statuscode").Value);
-            Assert.Equal((int)Crm.IncidentState.Resolved, retrievedIncident.GetAttributeValue<OptionSetValue>("statecode").Value);
+            Assert.Equal((int)incident_statecode.Resolved, retrievedIncident.GetAttributeValue<OptionSetValue>("statecode").Value);
         }
 
         [Fact]
         public void When_a_request_with_invalid_incidentid_is_called_exception_is_raised()
         {
             
-            _context.Initialize(new Entity(Crm.Incident.EntityLogicalName) { Id = Guid.NewGuid() });
+            _context.Initialize(new Entity(Incident.EntityLogicalName) { Id = Guid.NewGuid() });
             var executor = new CloseIncidentRequestExecutor();
 
             Entity incidentResolution = new Entity
             {
-                LogicalName = Crm.IncidentResolution.EntityLogicalName,
+                LogicalName = IncidentResolution.EntityLogicalName,
                 ["subject"] = "subject",
-                ["incidentid"] = new EntityReference(Crm.Incident.EntityLogicalName, Guid.NewGuid())
+                ["incidentid"] = new EntityReference(Incident.EntityLogicalName, Guid.NewGuid())
             };
 
             CloseIncidentRequest closeIncidentRequest = new CloseIncidentRequest
@@ -83,7 +84,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
         {
             var incident = new Entity
             {
-                LogicalName = Crm.Incident.EntityLogicalName,
+                LogicalName = Incident.EntityLogicalName,
                 Id = Guid.NewGuid()
             };
 
@@ -110,7 +111,7 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
 
             var incident = new Entity
             {
-                LogicalName = Crm.Incident.EntityLogicalName,
+                LogicalName = Incident.EntityLogicalName,
                 Id = Guid.NewGuid()
             };
 
@@ -121,9 +122,9 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.CloseIncidentRequestTe
 
             Entity incidentResolution = new Entity
             {
-                LogicalName = Crm.IncidentResolution.EntityLogicalName,
+                LogicalName = IncidentResolution.EntityLogicalName,
                 ["subject"] = "subject",
-                ["incidentid"] = new EntityReference(Crm.Incident.EntityLogicalName, incident.Id)
+                ["incidentid"] = new EntityReference(Incident.EntityLogicalName, incident.Id)
             };
 
             var executor = new CloseIncidentRequestExecutor();

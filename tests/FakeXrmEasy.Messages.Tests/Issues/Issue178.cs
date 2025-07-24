@@ -1,8 +1,8 @@
-﻿using Crm;
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataverseEntities;
 using Xunit;
 using FakeXrmEasy.Abstractions;
 
@@ -119,9 +119,9 @@ namespace FakeXrmEasy.Messages.Tests.Issues
     }
 }
 
-namespace Crm
+namespace DataverseEntities
 {
-    partial class Contact
+    public partial class Contact
     {
         /// <summary>
 		/// N:N gbp_gbp_customaddress_contact
@@ -135,9 +135,7 @@ namespace Crm
             }
             set
             {
-                this.OnPropertyChanging("gbp_gbp_customaddress_contact");
                 this.SetRelatedEntities<gbp_customaddress>("gbp_gbp_customaddress_contact", null, value);
-                this.OnPropertyChanged("gbp_gbp_customaddress_contact");
             }
         }
     }

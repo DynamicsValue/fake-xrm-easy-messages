@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
-
 using Xunit;
 using FakeXrmEasy.Extensions;
 using Microsoft.Xrm.Sdk.Messages;
-using Crm;
+using DataverseEntities;
 using Microsoft.Xrm.Sdk;
 using System.Reflection;
 using System.Linq;

@@ -6,8 +6,8 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using System.ServiceModel;
 using Xunit;
-using Crm;
 using System.Linq;
+using DataverseEntities;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.AssignRequestTests
 {
