@@ -1,3 +1,9 @@
+## [2.8.0]
+
+### Changed
+
+- SendEmailRequest won't generate an email tracking token if tracking token generation in EmailSettings is disabled - https://github.com/DynamicsValue/fake-xrm-easy/issues/196
+
 ## [2.7.0]
 
 ### Changed 
