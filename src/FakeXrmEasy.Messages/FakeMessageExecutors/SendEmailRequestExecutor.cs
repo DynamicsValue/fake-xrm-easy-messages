@@ -49,16 +49,16 @@ namespace FakeXrmEasy.FakeMessageExecutors
             entity["statuscode"] = new OptionSetValue(3); //Sent
 
             string trackingToken = req.TrackingToken;
-            if (string.IsNullOrWhiteSpace(trackingToken))
+            var emailTrackingSettings = ctx.GetProperty<IEmailTrackingSettings>();
+            if (string.IsNullOrWhiteSpace(trackingToken) && emailTrackingSettings.IsEnabled)
             {
-                var emailTrackingSettings = ctx.GetProperty<IEmailTrackingSettings>();
                 trackingToken = emailTrackingSettings.GenerateNewTrackingTokenValue();
             }
             entity["trackingtoken"] = trackingToken;
             entity["actualend"] = DateTime.UtcNow;
             entity["deliveryattempts"] = 0;
 
-            string newSubject = $"{existingEmail["subject"]} {trackingToken}";
+            string newSubject = !string.IsNullOrWhiteSpace(trackingToken) ? $"{existingEmail["subject"]} {trackingToken}" : $"{existingEmail["subject"]}";
             entity["subject"] = newSubject;
             
             ctx.GetOrganizationService().Update(entity);

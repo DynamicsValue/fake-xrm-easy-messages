@@ -1,11 +1,20 @@
+## [2.8.0]
+
+### Changed
+
+- SendEmailRequest won't generate an email tracking token if tracking token generation in EmailSettings is disabled - https://github.com/DynamicsValue/fake-xrm-easy/issues/196
+
 ## [2.7.0]
 
-### Changed 
+### Added 
 
 - Adds implementation for SendFaxRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/188
 - Adds implementation for SendTemplateRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/188
 - Adds implementation for SendEmailFromTemplateRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/186
 - Adds implementation for InstantiateTemplateRequest using XSLT transforms - https://github.com/DynamicsValue/fake-xrm-easy/issues/178
+ 
+### Changed 
+
 - Replaced old generated code with generated code by pac modelbuilder
 - Populates extra attributes when an email is sent with SendEmailRequest - https://github.com/DynamicsValue/fake-xrm-easy/issues/186
 
