@@ -1,13 +1,13 @@
 ## [3.9.0]
 
-### Changed
-
-- Increment version
+- Increment version 
 
 ## [3.8.0]
 
 ### Changed
 
+- Upgraded to net8.0
+- Upgraded to DataverseClient 1.2.9
 - SendEmailRequest won't generate an email tracking token if tracking token generation in EmailSettings is disabled - https://github.com/DynamicsValue/fake-xrm-easy/issues/196
 
 ## [3.7.0]
