@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using DataverseEntities;
 using FakeXrmEasy.Abstractions;
+using FakeXrmEasy.Core.EmailSettings;
 using Xunit;
 
 namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.SendEmailRequestTests
@@ -71,6 +72,34 @@ namespace FakeXrmEasy.Messages.Tests.FakeMessageExecutors.SendEmailRequestTests
             Assert.Equal(expectedSubject, emailAfter.Subject);
         }
 
+        [Fact]
+        public void Should_not_generate_email_tracking_token_if_tracking_token_generation_is_disabled()
+        {
+            _context.EnableProxyTypes(Assembly.GetExecutingAssembly());
+            
+            var emailTrackingTokenSettings = new EmailTrackingSettings() { IsEnabled = false };
+            _context.SetProperty<IEmailTrackingSettings>(emailTrackingTokenSettings);
+            
+            var email = new Email()
+            {
+                Id = Guid.NewGuid(),
+                Subject = "FXE Test"
+            };
+            var emailId = _service.Create(email);
+
+            var request = new SendEmailRequest
+            {
+                EmailId = emailId
+            };
+            var response = (SendEmailResponse)_service.Execute(request) as SendEmailResponse;
+
+            var expectedSubject = $"{email.Subject}";
+            Assert.Equal(expectedSubject, response.Subject);
+
+            var emailAfter = _context.CreateQuery<Email>().FirstOrDefault();
+            Assert.Equal(expectedSubject, emailAfter.Subject);
+        }
+        
         [Fact]
         public void Should_throw_exception_when_emailid_does_not_exist()
         {
