@@ -2,6 +2,7 @@
 
 ### Changed
 
+- Upgrade CrmSdk.CoreAssemblies - https://github.com/DynamicsValue/fake-xrm-easy/issues/217
 - Increment version
 
 ## [2.8.0]
