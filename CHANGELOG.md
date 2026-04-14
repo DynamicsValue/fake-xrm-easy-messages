@@ -1,5 +1,9 @@
 ## [2.9.1]
 
+### Changed
+
+- Added net48 as the target framework along with net462 - https://github.com/DynamicsValue/fake-xrm-easy/issues/233
+
 ## [2.9.0]
 
 ### Changed
