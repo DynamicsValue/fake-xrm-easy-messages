@@ -1,3 +1,9 @@
+## [3.9.1]
+
+### Changed
+
+- Upgraded Microsoft.PowerPlatform.Dataverse.Client package to 1.2.10
+
 ## [3.9.0]
 
 - Increment version 
