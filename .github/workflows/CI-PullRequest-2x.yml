@@ -19,7 +19,7 @@ jobs:
       matrix: 
         configuration: ['FAKE_XRM_EASY_9', 'FAKE_XRM_EASY_365', 'FAKE_XRM_EASY_2016','FAKE_XRM_EASY_2015','FAKE_XRM_EASY_2013','FAKE_XRM_EASY']
 
-    runs-on: windows-latest
+    runs-on: windows-2025
 
     steps:
     - uses: actions/checkout@v2
