@@ -2,6 +2,7 @@
 
 ### Changed
 
+- Added .net ref assemblies - https://github.com/DynamicsValue/fake-xrm-easy/issues/249
 - Increment version
 
 ## [2.9.1]
