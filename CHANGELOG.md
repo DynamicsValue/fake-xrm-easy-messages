@@ -1,7 +1,14 @@
+## [3.9.6]
+
+### Changed
+
+- Increment version
+
 ## [3.9.5]
 
 ### Changed
 
+- Resolves an issue where the 2x branch would not build on Linux - https://github.com/DynamicsValue/fake-xrm-easy/issues/273
 - Increment version
 
 ## [3.9.4]
