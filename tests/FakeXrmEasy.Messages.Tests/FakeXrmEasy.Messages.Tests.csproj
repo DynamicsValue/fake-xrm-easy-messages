@@ -23,20 +23,18 @@
     <PackageTags>dynamics;crm;365;unit testing;xrm;mock;mocking;fake;fakes;cds;common data service;power platform</PackageTags>
     <RepositoryUrl>https://github.com/DynamicsValue/fake-xrm-easy-messages</RepositoryUrl>
 
-    <Configurations>FAKE_XRM_EASY_9;FAKE_XRM_EASY_365;FAKE_XRM_EASY_2016;FAKE_XRM_EASY_2015;FAKE_XRM_EASY_2013;FAKE_XRM_EASY</Configurations>
+    <Configurations>FAKE_XRM_EASY_9;FAKE_XRM_EASY_365;FAKE_XRM_EASY_2016;FAKE_XRM_EASY_2015;FAKE_XRM_EASY_2013</Configurations>
     <AssemblyOriginatorKeyFile>..\..\fakexrmeasy.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>True</SignAssembly>
     <PublicSign Condition="'$(OS)'=='Unix'">true</PublicSign>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="../../LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
     <None Include="../../FakeXrmEasyLogo_128x128.png" Pack="true" PackagePath="/" />
   </ItemGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)'=='FAKE_XRM_EASY'">
-    <DefineConstants>DEBUG;TRACE;FAKE_XRM_EASY</DefineConstants>
-  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='FAKE_XRM_EASY_2013'">
     <DefineConstants>DEBUG;TRACE;FAKE_XRM_EASY_2013</DefineConstants>
@@ -68,18 +66,13 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="[6.0.0, 7.0)" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.console" Version="2.4.1" />
-    <PackageReference Include="coverlet.collector" Version="10.0.1" />
+    <PackageReference Include="FakeItEasy" Version="[6.0.0,7.0)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.2" />
+    <PackageReference Include="coverlet.MTP" Version="10.1.0" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='FAKE_XRM_EASY'">
-    <PackageReference Include="FakeXrmEasy.Abstractions.v2011" Version="3.9.6-*" />
-    <PackageReference Include="FakeXrmEasy.Core.v2011" Version="3.9.6-*" />
-  </ItemGroup>
   <ItemGroup Condition="'$(Configuration)'=='FAKE_XRM_EASY_2013'">
     <PackageReference Include="FakeXrmEasy.Abstractions.v2013" Version="3.9.6-*" />
     <PackageReference Include="FakeXrmEasy.Core.v2013" Version="3.9.6-*" />
@@ -109,9 +102,6 @@
     <ProjectReference Include="..\..\src\FakeXrmEasy.Messages\FakeXrmEasy.Messages.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(PackTests)' == 'true' And '$(Configuration)'=='FAKE_XRM_EASY'">
-    <PackageReference Include="FakeXrmEasy.Messages.v2011" Version="3.9.6-*" />
-  </ItemGroup>
   <ItemGroup Condition="'$(PackTests)' == 'true' And '$(Configuration)'=='FAKE_XRM_EASY_2013'">
     <PackageReference Include="FakeXrmEasy.Messages.v2013" Version="3.9.6-*" />
   </ItemGroup>
