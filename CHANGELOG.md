@@ -1,7 +1,15 @@
+## [3.9.6]
+
+### Changed
+
+- Upgraded to latest Microsoft.PowerPlatform.Dataverse.Client 1.2.27 to support .net10 - https://github.com/DynamicsValue/fake-xrm-easy/issues/282
+- Increment version
+
 ## [3.9.5]
 
 ### Changed
 
+- Resolves an issue where the 2x branch would not build on Linux - https://github.com/DynamicsValue/fake-xrm-easy/issues/273
 - Increment version
 
 ## [3.9.4]
